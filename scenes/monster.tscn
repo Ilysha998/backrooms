@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8lxfyjatv65k"]
+
+[ext_resource type="PackedScene" uid="uid://cmsatot68hfip" path="res://scenes/accurate_smiler_backrooms_blender_3.22.glb" id="1_uwnm8"]
+
+[node name="Monster" instance=ExtResource("1_uwnm8")]

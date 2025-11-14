@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dk8e3oa6djuef"]
+
+[ext_resource type="AudioStream" uid="uid://qnmwwceigrhf" path="res://assets/sounds/buzz.ogg" id="1_ew17t"]
+[ext_resource type="AudioStream" uid="uid://dp03rpk8aamay" path="res://assets/sounds/Atmosphere.ogg" id="2_paa24"]
+
+[node name="SoundHandler" type="Node3D"]
+
+[node name="MusicLightsOn" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_ew17t")
+autoplay = true
+parameters/looping = true
+
+[node name="MusicLightsOff" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_paa24")
+autoplay = true
+parameters/looping = true

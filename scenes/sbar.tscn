@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://btx8gt5b7f7pu"]
+
+[ext_resource type="PackedScene" uid="uid://cgw7qwu4colo1" path="res://assets/models/sbar/bar.fbx" id="1_h2q8m"]
+[ext_resource type="Texture2D" uid="uid://dyj5ckjhhno5b" path="res://assets/models/sbar/bar_Material_BaseColor.jpg" id="2_u3bie"]
+[ext_resource type="Texture2D" uid="uid://cw8nbwu2jfa4o" path="res://assets/models/sbar/bar_Material_Normal.jpg" id="3_gtn6l"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6jgsn"]
+albedo_texture = ExtResource("2_u3bie")
+normal_enabled = true
+normal_texture = ExtResource("3_gtn6l")
+
+[node name="bar" groups=["stamina_bar"] instance=ExtResource("1_h2q8m")]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
+
+[node name="Cube" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_6jgsn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cube" index="0"]

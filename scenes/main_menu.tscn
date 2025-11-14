@@ -13,10 +13,10 @@ script = ExtResource("1_l6cm7")
 
 [node name="play" type="Button" parent="."]
 layout_mode = 0
-offset_left = 63.0
-offset_top = 28.0
-offset_right = 448.0
-offset_bottom = 119.0
+offset_left = 290.0
+offset_top = 58.0
+offset_right = 476.15387
+offset_bottom = 102.0
 text = "Play"
 
 [node name="exit" type="Button" parent="."]

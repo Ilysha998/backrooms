@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1q8f0af81k0j"]
+
+[ext_resource type="PackedScene" uid="uid://btx8gt5b7f7pu" path="res://scenes/sbar.tscn" id="1_757jh"]
+[ext_resource type="Script" uid="uid://ds6d457shs21s" path="res://scenes/s_bar_prepared.gd" id="1_plcj5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_plcj5"]
+size = Vector3(0.22185546, 0.040268555, 0.06951538)
+
+[node name="SBar_prepared" type="Area3D"]
+script = ExtResource("1_plcj5")
+
+[node name="bar" parent="." instance=ExtResource("1_757jh")]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008388672, 0.0051342775, 0.00082946615)
+shape = SubResource("BoxShape3D_plcj5")

@@ -11,15 +11,25 @@ config_version=5
 [application]
 
 config/name="Backrooms"
-run/main_scene="uid://dj2lmlcfa3w6y"
+config/version="0.5"
+run/main_scene="uid://c3pgylh0ed50q"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GlobalLightHandler="*res://scripts/global_light_handler.gd"
 
 [display]
 
 window/size/viewport_width=512
 window/size/viewport_height=300
 window/stretch/mode="viewport"
+
+[global_group]
+
+water_bottle=""
+stamina_bar=""
 
 [input]
 

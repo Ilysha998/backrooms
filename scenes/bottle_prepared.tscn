@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://ppx6oh3gyutq"]
+
+[ext_resource type="Script" uid="uid://dcsgjjp27yfe0" path="res://bottle_prepared.gd" id="1_u4umo"]
+[ext_resource type="PackedScene" uid="uid://c6vih6e60cc63" path="res://scenes/bottle.tscn" id="2_wcnse"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7rcw7"]
+radius = 0.07373047
+height = 0.34326172
+
+[node name="Bottle_prepared" type="Area3D"]
+script = ExtResource("1_u4umo")
+
+[node name="bottle (3)" parent="." instance=ExtResource("2_wcnse")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14575195, 0)
+shape = SubResource("CapsuleShape3D_7rcw7")

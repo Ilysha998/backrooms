@@ -57,7 +57,7 @@ extends CharacterBody3D
 ## Текущее количество рассудка.
 @export var current_sanity : float = 100.0
 ## Скорость уменьшения рассудка в секунду.
-@export var sanity_drain_rate : float = 1.0
+@export var sanity_drain_rate : float = 0.1
 ## Количество рассудка, восстанавливаемое одной бутылкой воды.
 @export var water_restore_amount : float = 25.0
 #endregion
@@ -508,16 +508,16 @@ func handle_collisions():
 # Функция для подбора бутылки с водой
 func collect_water(bottle_node):
 	current_sanity += water_restore_amount
-	current_sanity = min(current_sanity, max_sanity) # Рассудок не может быть больше максимума
-	bottle_node.queue_free() # Удаляем объект со сцены
-	#print("Water collected! Sanity: ", current_sanity) # Для отладки
+	current_sanity = min(current_sanity, max_sanity)
+	bottle_node.queue_free()
+	print("Water collected! Sanity: ", current_sanity)
 
 # Функция для подбора батончика
 func collect_stamina_bar(bar_node):
 	is_stamina_boosted = true
 	stamina_boost_timer = stamina_boost_duration
-	bar_node.queue_free() # Удаляем объект со сцены
-	#print("Stamina bar collected! Boost active.") # Для отладки
+	bar_node.queue_free()
+	print("Stamina bar collected! Boost active.")
 
 #endregion
 

@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://bna2qyqhxwwmm"]
+
+[ext_resource type="Texture2D" uid="uid://df41nyuntbmqa" path="res://assets/textures/Wall_light_BaseColor.jpg" id="1_vhcug"]
+[ext_resource type="Texture2D" uid="uid://ciamdb4ostmh0" path="res://assets/textures/Wall_light_Normal.jpg" id="2_2dxbg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bjph4"]
+albedo_texture = ExtResource("1_vhcug")
+normal_enabled = true
+normal_texture = ExtResource("2_2dxbg")
+
+[node name="BLight" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.022895515, 0)
+cast_shadow = 0
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_bjph4")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -0.1261157, 0)
+visible = false
+light_energy = 5.204
+light_indirect_energy = 5.788
+light_volumetric_fog_energy = 0.4
+light_size = 0.495
+light_specular = 2.485
+shadow_enabled = true
+shadow_blur = 3.39
+spot_range = 7.2855263
+spot_angle = 76.9943
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -0.4842829, 0)
+visible = false
+light_color = Color(1, 1, 0.8039216, 1)
+light_energy = 0.508
+light_indirect_energy = 8.942
+light_volumetric_fog_energy = 10.48
+light_size = 0.533
+light_specular = 11.561
+light_bake_mode = 1
+shadow_enabled = true
+distance_fade_enabled = true
+omni_range = 6.6

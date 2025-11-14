@@ -1,0 +1,60 @@
+[gd_scene load_steps=12 format=3 uid="uid://c3pgylh0ed50q"]
+
+[ext_resource type="PackedScene" uid="uid://boog3ppefxb7r" path="res://scenes/monitor.tscn" id="1_dts3x"]
+[ext_resource type="Script" uid="uid://b3q2qy2xbwuew" path="res://scripts/main_menu.gd" id="2_b4h4y"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_dts3x"]
+sky_top_color = Color(0.16474998, 0.20500857, 0.25863782, 1)
+sky_horizon_color = Color(0.20810547, 0.21817012, 0.23157743, 1)
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0.20810547, 0.21817012, 0.23157743, 1)
+energy_multiplier = 0.75
+
+[sub_resource type="Sky" id="Sky_b4h4y"]
+sky_material = SubResource("ProceduralSkyMaterial_dts3x")
+
+[sub_resource type="Environment" id="Environment_1kjss"]
+background_mode = 2
+sky = SubResource("Sky_b4h4y")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dts3x"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b4h4y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1kjss"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mk0s5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_expxp"]
+
+[sub_resource type="Theme" id="Theme_tvfqg"]
+Button/colors/font_color = Color(0.14117648, 0.7529412, 0, 1)
+Button/styles/disabled = SubResource("StyleBoxEmpty_dts3x")
+Button/styles/focus = SubResource("StyleBoxEmpty_b4h4y")
+Button/styles/hover = SubResource("StyleBoxEmpty_1kjss")
+Button/styles/normal = SubResource("StyleBoxEmpty_mk0s5")
+Button/styles/pressed = SubResource("StyleBoxEmpty_expxp")
+
+[node name="Mmscene" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1kjss")
+
+[node name="monitor" parent="." instance=ExtResource("1_dts3x")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -1.2480766, 1.0446851, -1.5453478)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1.3378661, 0.8656732, -0.32003164)
+
+[node name="play" type="Button" parent="."]
+offset_left = 311.0
+offset_top = 65.0
+offset_right = 413.0
+offset_bottom = 101.0
+theme = SubResource("Theme_tvfqg")
+text = "START"
+script = ExtResource("2_b4h4y")
+
+[connection signal="pressed" from="play" to="play" method="_on_pressed"]
