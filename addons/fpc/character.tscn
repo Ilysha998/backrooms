@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://hutuis63hgev" path="res://addons/fpc/character.gd" id="1_0t4e8"]
 [ext_resource type="Texture2D" uid="uid://brm2xg4fftbvt" path="res://assets/textures/images (3).jpg" id="3_qaoyu"]
+[ext_resource type="Script" uid="uid://tntcgmf8pol5" path="res://addons/fpc/spot_light_3d.gd" id="2_bx7cj"]
+[ext_resource type="Texture2D" uid="uid://mv268ogg3slv" path="res://assets/textures/images (1).jpg" id="2_qaoyu"]
 [ext_resource type="Script" uid="uid://dgfl3skp075ft" path="res://addons/fpc/EditorModule.gd" id="3_v3ckk"]
 [ext_resource type="Script" uid="uid://u5u7xxlvmcxx" path="res://addons/fpc/debug.gd" id="3_x1wcc"]
 [ext_resource type="Texture2D" uid="uid://bixx8yvsw0ydf" path="res://assets/textures/images (4).jpg" id="4_gv6je"]
@@ -382,9 +384,10 @@ MarginContainer/constants/margin_top = 10
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_k4wwl"]
 
-[node name="Character" type="CharacterBody3D" node_paths=PackedStringArray("HEAD", "CAMERA", "HEADBOB_ANIMATION", "JUMP_ANIMATION", "CROUCH_ANIMATION", "COLLISION_MESH", "STAMINA_BAR")]
+[node name="Character" type="CharacterBody3D" node_paths=PackedStringArray("flashlight", "HEAD", "CAMERA", "HEADBOB_ANIMATION", "JUMP_ANIMATION", "CROUCH_ANIMATION", "COLLISION_MESH", "STAMINA_BAR")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 script = ExtResource("1_0t4e8")
+flashlight = NodePath("Head/Camera/SpotLight3D")
 default_reticle = "res://addons/fpc/reticles/reticle_1.tscn"
 HEAD = NodePath("Head")
 CAMERA = NodePath("Head/Camera")
@@ -459,6 +462,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="StaminaBar" type="ProgressBar" parent="UserInterface"]
+modulate = Color(0.7882353, 0.7882353, 0.7882353, 0.60784316)
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -485,6 +489,22 @@ layout_mode = 0
 offset_right = 513.0
 offset_bottom = 299.0
 texture = ExtResource("4_gv6je")
+[node name="SanityBar" type="ProgressBar" parent="UserInterface"]
+modulate = Color(0.48556006, 0.00016735062, 0.48570114, 1)
+self_modulate = Color(0.51700425, 0.014230434, 0.43154088, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -51.0
+offset_top = -210.0
+offset_right = -11.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+show_percentage = false
 
 [node name="CrouchCeilingDetection" type="ShapeCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

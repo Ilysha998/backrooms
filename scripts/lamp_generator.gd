@@ -34,14 +34,10 @@ func generate_lamps():
 			var random_value = randf()
 
 			if random_value < broken_chance:
-				# --- ИЗМЕНЕННЫЙ БЛОК ---
-				# Находим ВСЕ узлы света
 				var lights = find_all_light_nodes(lamp_instance)
-				# Проходимся по каждому найденному свету и отключаем его
 				for light in lights:
 					if is_instance_valid(light):
 						light.visible = false
-				# -----------------------
 
 			elif random_value < broken_chance + flicker_chance:
 				var flicker_component = Node.new()
@@ -50,13 +46,10 @@ func generate_lamps():
 
 			add_child(lamp_instance)
 
-# --- ИЗМЕНЕННАЯ ФУНКЦИЯ ---
-# Вспомогательная функция для поиска ВСЕХ узлов света.
-# Теперь она называется find_all_light_nodes и возвращает массив.
+
 func find_all_light_nodes(node_root) -> Array[Light3D]:
 	var found_lights: Array[Light3D] = []
 	for child in node_root.get_children():
-		if child is Light3D: # Проверяем тип узла
+		if child is Light3D:
 			found_lights.append(child)
-	return found_lights # Возвращаем массив всех найденных узлов
-# ---------------------------
+	return found_lights

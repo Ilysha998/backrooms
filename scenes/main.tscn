@@ -61,7 +61,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.004665613, -0.051361084, 0.
 [node name="MapGenerator" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -500, 0, -500)
 script = ExtResource("2_0wfyh")
-room_prefabs = Array[PackedScene]([ExtResource("4_tefeu"), ExtResource("5_o6xl0")])
+room_prefabs = Array[PackedScene]([ExtResource("4_tefeu"), ExtResource("5_o6xl0"), ExtResource("9_85g3d"), ExtResource("8_85g3d"), ExtResource("9_85g3d"), ExtResource("5_o6xl0")])
 map_bounds = Vector2i(100, 100)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
