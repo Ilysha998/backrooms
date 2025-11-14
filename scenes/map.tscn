@@ -35,7 +35,8 @@ metallic_texture = ExtResource("2_jh32y")
 roughness_texture = ExtResource("4_blm8a")
 normal_enabled = true
 normal_texture = ExtResource("3_be0no")
-uv1_scale = Vector3(1000, 1000, 1000)
+uv1_triplanar = true
+uv1_world_triplanar = true
 
 [node name="Map" type="Node3D"]
 

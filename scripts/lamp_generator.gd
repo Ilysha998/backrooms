@@ -34,8 +34,8 @@ func generate_lamps():
 			else:
 				lamp_instance = lamp_scene.instantiate()
 			
-			var offset_x = randf_range(-position_offset, position_offset)
-			var offset_z = randf_range(-position_offset, position_offset)
+			var offset_x = round(randf_range(-position_offset, position_offset))
+			var offset_z = round(randf_range(-position_offset, position_offset))
 			
 			var pos_x = start_position.x + (x * spacing) + offset_x
 			var pos_z = start_position.y + (z * spacing) + offset_z
