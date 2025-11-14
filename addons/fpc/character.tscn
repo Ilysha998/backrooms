@@ -390,6 +390,7 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 
 script = ExtResource("1_0t4e8")
 flashlight = NodePath("Head/Camera/SpotLight3D")
 default_reticle = "res://addons/fpc/reticles/reticle_1.tscn"
+sanity_drain_rate = 1.0
 HEAD = NodePath("Head")
 CAMERA = NodePath("Head/Camera")
 HEADBOB_ANIMATION = NodePath("Head/HeadbobAnimation")
@@ -501,6 +502,7 @@ offset_right = -11.0
 offset_bottom = -20.0
 grow_horizontal = 0
 grow_vertical = 0
+fill_mode = 3
 show_percentage = false
 
 [node name="TextureRect" type="TextureRect" parent="UserInterface"]
@@ -529,7 +531,5 @@ target_position = Vector3(0, 0.5, 0)
 [node name="EditorModule" type="Node" parent="."]
 script = ExtResource("3_v3ckk")
 
-[node name="MonsterSpawner" parent="." node_paths=PackedStringArray("player", "darkness_check_point") instance=ExtResource("8_q62an")]
+[node name="MonsterSpawner" parent="." instance=ExtResource("8_q62an")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.13842762, 0, -0.019061094)
-player = NodePath("")
-darkness_check_point = NodePath("")

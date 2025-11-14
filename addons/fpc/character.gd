@@ -478,9 +478,13 @@ func handle_sanity(delta):
 	if current_sanity > 0:
 		current_sanity -= sanity_drain_rate * delta
 		current_sanity = max(0, current_sanity) # Убедимся, что рассудок не уходит в минус
+		
+	if current_sanity == 0:
+		get_tree().change_scene_to_file('res://scenes/main.tscn') 
 	
 	if SANITY_BAR:
 		SANITY_BAR.value = current_sanity
+		
 
 # Управляет таймером бонуса выносливости
 func handle_stamina_boost_timer(delta):
