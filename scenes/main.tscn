@@ -1,13 +1,13 @@
 [gd_scene load_steps=13 format=3 uid="uid://86ukk0yjxy4y"]
 
 [ext_resource type="PackedScene" uid="uid://cc1m2a1obsyn4" path="res://addons/fpc/character.tscn" id="1_o5qli"]
-[ext_resource type="Script" path="res://scripts/map_generator.gd" id="2_0wfyh"]
+[ext_resource type="Script" path="res://scenes/map_generator.gd" id="2_0wfyh"]
 [ext_resource type="Texture2D" uid="uid://blb288vob0x0j" path="res://assets/textures/dirtmasktextureexample.png" id="3_tipki"]
 [ext_resource type="PackedScene" uid="uid://cc1w7vnxycmg" path="res://scenes/wall_gen.tscn" id="4_tefeu"]
 [ext_resource type="PackedScene" uid="uid://b5ibengd1xsju" path="res://scenes/wall_gen_90.tscn" id="5_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://bk4pgwa6vn5ma" path="res://scenes/map.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://bt2qtg6lkri3l" path="res://scenes/t_light.tscn" id="7_o6xl0"]
-[ext_resource type="Script" path="res://scripts/lamp_generator.gd" id="8_tipki"]
+[ext_resource type="Script" path="res://scenes/lamp_generator.gd" id="8_tipki"]
 
 [sub_resource type="Gradient" id="Gradient_tipki"]
 offsets = PackedFloat32Array(0, 0.098130845, 0.27570093, 0.85046726, 0.91588783, 0.9579439)
