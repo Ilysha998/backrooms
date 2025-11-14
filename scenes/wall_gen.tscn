@@ -16,5 +16,5 @@ uv1_triplanar = true
 [node name="wall" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.447444, 0)
 use_collision = true
-size = Vector3(16, 5, 0.125)
+size = Vector3(16, 5, 0.2)
 material = SubResource("StandardMaterial3D_yn7gt")
