@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ds3fa1qtg4un7"
-path="res://.godot/imported/pizza-slice-svgrepo-com.svg-1764b9fbee1d19606a846728fdd26288.ctex"
+uid="uid://bx6gdmmim5oc0"
+path="res://.godot/imported/screaming-svgrepo-com.svg-946f587f13136159472f1ae3eabf1a05.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/pizza-slice-svgrepo-com.svg"
-dest_files=["res://.godot/imported/pizza-slice-svgrepo-com.svg-1764b9fbee1d19606a846728fdd26288.ctex"]
+source_file="res://assets/icons/screaming-svgrepo-com.svg"
+dest_files=["res://.godot/imported/screaming-svgrepo-com.svg-946f587f13136159472f1ae3eabf1a05.ctex"]
 
 [params]
 

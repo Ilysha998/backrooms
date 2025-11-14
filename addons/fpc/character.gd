@@ -47,6 +47,28 @@ extends CharacterBody3D
 @export var stamina_regeneration_delay : float = 1.5
 #endregion
 
+#region Sanity Export Group
+# НОВЫЙ РАЗДЕЛ: Рассудок
+@export_group("Sanity")
+## Максимальное количество рассудка.
+@export var max_sanity : float = 100.0
+## Текущее количество рассудка.
+@export var current_sanity : float = 100.0
+## Скорость уменьшения рассудка в секунду.
+@export var sanity_drain_rate : float = 1.0
+## Количество рассудка, восстанавливаемое одной бутылкой воды.
+@export var water_restore_amount : float = 25.0
+#endregion
+
+#region Powerups Export Group
+# НОВЫЙ РАЗДЕЛ: Бонусы от предметов
+@export_group("Powerups")
+## Длительность эффекта от батончика (в секундах).
+@export var stamina_boost_duration : float = 15.0
+## Множитель расхода выносливости под эффектом (0.5 = 50% расход).
+@export var stamina_boost_multiplier : float = 0.5
+#endregion
+
 #region Nodes Export Group
 
 @export_group("Nodes")
@@ -64,6 +86,8 @@ extends CharacterBody3D
 @export var COLLISION_MESH : CollisionShape3D
 ## A reference to the stamina bar in the UI.
 @export var STAMINA_BAR : ProgressBar
+## НОВАЯ ПЕРЕМЕННАЯ: Ссылка на прогресс-бар рассудка в UI.
+@export var SANITY_BAR : ProgressBar
 
 #endregion
 
@@ -151,6 +175,10 @@ var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity") 
 var mouseInput : Vector2 = Vector2(0,0)
 var stamina_delay_timer : float = 0.0
 
+# НОВЫЕ ПЕРЕМЕННЫЕ для бонуса выносливости
+var is_stamina_boosted : bool = false
+var stamina_boost_timer : float = 0.0
+
 #endregion
 
 
@@ -179,6 +207,11 @@ func _ready():
 	if STAMINA_BAR:
 		STAMINA_BAR.max_value = max_stamina
 		STAMINA_BAR.value = current_stamina
+		
+	# НОВЫЙ КОД: Инициализация прогресс-бара рассудка
+	if SANITY_BAR:
+		SANITY_BAR.max_value = max_sanity
+		SANITY_BAR.value = current_sanity
 
 
 func _process(_delta):
@@ -195,6 +228,10 @@ func _physics_process(delta): # Most things happen here.
 	if not is_on_floor() and gravity and gravity_enabled:
 		velocity.y -= gravity * delta
 		
+	# НОВЫЙ КОД: Вызов функций для управления рассудком и бонусами
+	handle_sanity(delta)
+	handle_stamina_boost_timer(delta)
+	
 	handle_stamina(delta)
 	handle_jumping()
 
@@ -204,6 +241,9 @@ func _physics_process(delta): # Most things happen here.
 		input_dir = Input.get_vector(controls.LEFT, controls.RIGHT, controls.FORWARD, controls.BACKWARD)
 
 	handle_movement(delta, input_dir)
+	
+	# НОВЫЙ КОД: Проверка столкновений с предметами после движения
+	handle_collisions()
 
 	handle_head_rotation()
 
@@ -245,6 +285,8 @@ func handle_jumping():
 func handle_movement(delta, input_dir):
 	var direction = input_dir.rotated(-HEAD.rotation.y)
 	direction = Vector3(direction.x, 0, direction.y)
+	
+	# ИЗМЕНЕНИЕ: Сохраняем результат move_and_slide() для обработки столкновений
 	move_and_slide()
 
 	if in_air_momentum:
@@ -324,7 +366,12 @@ func check_controls(): # If you add a control, you might want to add a check for
 
 func handle_stamina(delta):
 	if state == "sprinting":
-		current_stamina -= stamina_drain_rate * delta
+		# ИЗМЕНЕНИЕ: Учитываем бонус от батончика
+		var current_drain_rate = stamina_drain_rate
+		if is_stamina_boosted:
+			current_drain_rate *= stamina_boost_multiplier
+			
+		current_stamina -= current_drain_rate * delta
 		if current_stamina <= 0:
 			current_stamina = 0
 			enter_normal_state()
@@ -416,6 +463,57 @@ func enter_sprint_state():
 
 #endregion
 
+#region Sanity and Powerups
+# НОВЫЙ РАЗДЕЛ
+
+# Управляет уменьшением рассудка и обновлением UI
+func handle_sanity(delta):
+	if current_sanity > 0:
+		current_sanity -= sanity_drain_rate * delta
+		current_sanity = max(0, current_sanity) # Убедимся, что рассудок не уходит в минус
+	
+	if SANITY_BAR:
+		SANITY_BAR.value = current_sanity
+
+# Управляет таймером бонуса выносливости
+func handle_stamina_boost_timer(delta):
+	if is_stamina_boosted:
+		stamina_boost_timer -= delta
+		if stamina_boost_timer <= 0:
+			is_stamina_boosted = false
+			#print("Stamina boost expired!") # Для отладки
+
+# Проверяет столкновения с предметами
+func handle_collisions():
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		if collision:
+			var collider = collision.get_collider()
+			if collider:
+				# Проверяем, есть ли у объекта группа "water_bottle"
+				if collider.is_in_group("water_bottle"):
+					collect_water(collider)
+				
+				# Проверяем, есть ли у объекта группа "stamina_bar"
+				if collider.is_in_group("stamina_bar"):
+					collect_stamina_bar(collider)
+
+# Функция для подбора бутылки с водой
+func collect_water(bottle_node):
+	current_sanity += water_restore_amount
+	current_sanity = min(current_sanity, max_sanity) # Рассудок не может быть больше максимума
+	bottle_node.queue_free() # Удаляем объект со сцены
+	#print("Water collected! Sanity: ", current_sanity) # Для отладки
+
+# Функция для подбора батончика
+func collect_stamina_bar(bar_node):
+	is_stamina_boosted = true
+	stamina_boost_timer = stamina_boost_duration
+	bar_node.queue_free() # Удаляем объект со сцены
+	#print("Stamina bar collected! Boost active.") # Для отладки
+
+#endregion
+
 #region Animation Handling
 
 func initialize_animations():
@@ -479,6 +577,8 @@ func update_debug_menu_per_frame():
 		status += " in the air"
 	$UserInterface/DebugPanel.add_property("State", status, 4)
 	$UserInterface/DebugPanel.add_property("Stamina", snappedf(current_stamina, 0.01), 5)
+	# НОВЫЙ КОД: Отображение рассудка в отладке
+	$UserInterface/DebugPanel.add_property("Sanity", snappedf(current_sanity, 0.01), 6)
 
 
 func update_debug_menu_per_tick():

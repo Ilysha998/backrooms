@@ -57,7 +57,7 @@ func generate_level():
 				
 				# Применяем случайный поворот вокруг вертикальной оси (Y).
 				# TAU - это константа в Godot 4, равная 2 * PI (полный круг).
-				room_instance.rotate_y(rng.randf() * TAU) 
+				#room_instance.rotate_y(rng.randf() * TAU) 
 				
 				# Добавляем созданную комнату на сцену.
 				add_child(room_instance)

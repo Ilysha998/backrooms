@@ -464,6 +464,23 @@ grow_horizontal = 2
 grow_vertical = 0
 show_percentage = false
 
+[node name="SanityBar" type="ProgressBar" parent="UserInterface"]
+modulate = Color(0.48556006, 0.00016735062, 0.48570114, 1)
+self_modulate = Color(0.51700425, 0.014230434, 0.43154088, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -51.0
+offset_top = -210.0
+offset_right = -11.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+show_percentage = false
+
 [node name="CrouchCeilingDetection" type="ShapeCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("SphereShape3D_k4wwl")

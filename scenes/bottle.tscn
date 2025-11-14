@@ -1,0 +1,17 @@
+[gd_scene load_steps=6 format=3 uid="uid://c6vih6e60cc63"]
+
+[ext_resource type="PackedScene" uid="uid://pgvgb2ls2owg" path="res://assets/models/bottle/bottle (3).fbx" id="1_137t8"]
+[ext_resource type="Texture2D" uid="uid://erteygoipsa3" path="res://assets/models/bottle/bottle_DefaultMaterial_BaseColor.png" id="2_q2db8"]
+[ext_resource type="Texture2D" uid="uid://b0kkqk7phyll6" path="res://assets/models/bottle/bottle_DefaultMaterial_Normal.png" id="3_mxwgf"]
+[ext_resource type="Texture2D" uid="uid://cgd3elxmvjxd2" path="res://assets/models/bottle/bottle_DefaultMaterial_Roughness.png" id="4_gns2f"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sb5ox"]
+albedo_texture = ExtResource("2_q2db8")
+roughness_texture = ExtResource("4_gns2f")
+normal_enabled = true
+normal_texture = ExtResource("3_mxwgf")
+
+[node name="bottle (3)" instance=ExtResource("1_137t8")]
+
+[node name="Circle_001" parent="." index="0"]
+material_override = SubResource("StandardMaterial3D_sb5ox")
