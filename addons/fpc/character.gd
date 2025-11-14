@@ -24,7 +24,7 @@ extends CharacterBody3D
 ## How high the player jumps.
 @export var jump_velocity : float = 4.5
 ## How far the player turns when the mouse is moved.
-@export var mouse_sensitivity : float = 0.1
+@export var mouse_sensitivity : float = 0.4
 ## Invert the X axis input for the camera.
 @export var invert_camera_x_axis : bool = false
 ## Invert the Y axis input for the camera.
@@ -429,6 +429,7 @@ func handle_state(moving):
 			if Input.is_action_pressed(controls.CROUCH) and state != "sprinting":
 				if state != "crouching":
 					enter_crouch_state()
+					play_jump_animation()
 			elif state == "crouching" and !$CrouchCeilingDetection.is_colliding():
 				enter_normal_state()
 		elif crouch_mode == 1:
@@ -436,6 +437,7 @@ func handle_state(moving):
 				match state:
 					"normal":
 						enter_crouch_state()
+						play_jump_animation()
 					"crouching":
 						if !$CrouchCeilingDetection.is_colliding():
 							enter_normal_state()
@@ -628,7 +630,7 @@ func change_reticle(reticle): # Yup, this function is kinda strange
 
 func update_camera_fov():
 	if state == "sprinting":
-		CAMERA.fov = lerp(CAMERA.fov, 79.0, 0.3)
+		CAMERA.fov = lerp(CAMERA.fov, 81.0, 0.3)
 	else:
 		CAMERA.fov = lerp(CAMERA.fov, 75.0, 0.3)
 
