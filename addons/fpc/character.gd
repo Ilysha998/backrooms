@@ -17,6 +17,8 @@ extends CharacterBody3D
 ## The speed that the character moves at when crouching.
 @export var crouch_speed : float = 1.0
 
+@export var flashlight : Light3D
+
 ## How fast the character speeds up and slows down when Motion Smoothing is on.
 @export var acceleration : float = 10.0
 ## How high the player jumps.
@@ -104,7 +106,7 @@ extends CharacterBody3D
 	JUMP = "ui_accept",
 	CROUCH = "crouch",
 	SPRINT = "sprint",
-	PAUSE = "ui_cancel"
+	PAUSE = "ui_cancel",
 	}
 @export_subgroup("Controller Specific")
 ## This only affects how the camera is handled, the rest should be covered by adding controller inputs to the existing actions in the Input Map.
@@ -208,10 +210,13 @@ func _ready():
 		STAMINA_BAR.max_value = max_stamina
 		STAMINA_BAR.value = current_stamina
 		
-	# НОВЫЙ КОД: Инициализация прогресс-бара рассудка
-	if SANITY_BAR:
-		SANITY_BAR.max_value = max_sanity
-		SANITY_BAR.value = current_sanity
+
+func _input(event):
+	if Input.is_action_just_pressed("toggle_flashlight"): # Make sure "toggle_flashlight" is set up in Input Map
+		if flashlight.visible:
+			flashlight.hide()
+		else:
+			flashlight.show()
 
 
 func _process(_delta):
@@ -236,10 +241,12 @@ func _physics_process(delta): # Most things happen here.
 	handle_jumping()
 
 	var input_dir = Vector2.ZERO
+	
 
 	if not immobile: # Immobility works by interrupting user input, so other forces can still be applied to the player
 		input_dir = Input.get_vector(controls.LEFT, controls.RIGHT, controls.FORWARD, controls.BACKWARD)
-
+	
+	
 	handle_movement(delta, input_dir)
 	
 	# НОВЫЙ КОД: Проверка столкновений с предметами после движения
@@ -621,7 +628,7 @@ func change_reticle(reticle): # Yup, this function is kinda strange
 
 func update_camera_fov():
 	if state == "sprinting":
-		CAMERA.fov = lerp(CAMERA.fov, 85.0, 0.3)
+		CAMERA.fov = lerp(CAMERA.fov, 79.0, 0.3)
 	else:
 		CAMERA.fov = lerp(CAMERA.fov, 75.0, 0.3)
 
