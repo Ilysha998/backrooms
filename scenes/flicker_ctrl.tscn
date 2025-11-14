@@ -1,0 +1,12 @@
+[gd_scene load_steps=4 format=3 uid="uid://boih2y5agd1iq"]
+
+[ext_resource type="Script" uid="uid://yfbknsm2eq51" path="res://scripts/flicker_script.gd" id="1_afl85"]
+[ext_resource type="PackedScene" uid="uid://bt2qtg6lkri3l" path="res://scenes/t_light.tscn" id="2_hm8v6"]
+[ext_resource type="PackedScene" uid="uid://bna2qyqhxwwmm" path="res://scenes/b_light.tscn" id="3_vdao6"]
+
+[node name="FlickerCtrl" type="Node3D"]
+script = ExtResource("1_afl85")
+lamp_on_scene = ExtResource("2_hm8v6")
+lamp_off_scene = ExtResource("3_vdao6")
+
+[node name="Timer" type="Timer" parent="."]

@@ -1,6 +1,10 @@
+# lamp_generator.gd
 extends Node3D
 
 @export var lamp_scene: PackedScene
+@export var broken_lamp_scene: PackedScene
+@export var flickering_lamp_scene: PackedScene # Новая переменная
+
 @export var start_position = Vector2(-500, -500)
 @export var grid_size = Vector2i(10, 10)
 @export var spacing: float = 5.0
@@ -14,14 +18,22 @@ func _ready():
 	generate_lamps()
 
 func generate_lamps():
-	if not lamp_scene:
-		print("Сцена лампы не установлена!")
+	if not lamp_scene or not broken_lamp_scene or not flickering_lamp_scene:
+		print("Одна из сцен ламп не установлена!")
 		return
 
 	for x in range(grid_size.x):
 		for z in range(grid_size.y):
-			var lamp_instance = lamp_scene.instantiate()
+			var lamp_instance
+			var random_value = randf()
 
+			if random_value < broken_chance:
+				lamp_instance = broken_lamp_scene.instantiate()
+			elif random_value < broken_chance + flicker_chance:
+				lamp_instance = flickering_lamp_scene.instantiate()
+			else:
+				lamp_instance = lamp_scene.instantiate()
+			
 			var offset_x = randf_range(-position_offset, position_offset)
 			var offset_z = randf_range(-position_offset, position_offset)
 			
@@ -30,26 +42,4 @@ func generate_lamps():
 			var position = Vector3(pos_x, lamp_y_position, pos_z)
 			
 			lamp_instance.position = position
-
-			var random_value = randf()
-
-			if random_value < broken_chance:
-				var lights = find_all_light_nodes(lamp_instance)
-				for light in lights:
-					if is_instance_valid(light):
-						light.visible = false
-
-			elif random_value < broken_chance + flicker_chance:
-				var flicker_component = Node.new()
-				flicker_component.set_script(load("res://scripts/flicker_script.gd"))
-				lamp_instance.add_child(flicker_component)
-
 			add_child(lamp_instance)
-
-
-func find_all_light_nodes(node_root) -> Array[Light3D]:
-	var found_lights: Array[Light3D] = []
-	for child in node_root.get_children():
-		if child is Light3D:
-			found_lights.append(child)
-	return found_lights

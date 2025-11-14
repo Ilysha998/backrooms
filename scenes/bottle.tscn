@@ -11,7 +11,8 @@ roughness_texture = ExtResource("4_gns2f")
 normal_enabled = true
 normal_texture = ExtResource("3_mxwgf")
 
-[node name="bottle (3)" instance=ExtResource("1_137t8")]
+[node name="bottle (3)" groups=["water_bottle"] instance=ExtResource("1_137t8")]
+transform = Transform3D(0.055, 0, 0, 0, 0.055, 0, 0, 0, 0.055, 0, 0, 0)
 
 [node name="Circle_001" parent="." index="0"]
 material_override = SubResource("StandardMaterial3D_sb5ox")

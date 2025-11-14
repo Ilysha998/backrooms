@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://cc1m2a1obsyn4"]
+[gd_scene load_steps=27 format=3 uid="uid://cc1m2a1obsyn4"]
 
 [ext_resource type="Script" uid="uid://hutuis63hgev" path="res://addons/fpc/character.gd" id="1_0t4e8"]
 [ext_resource type="Script" uid="uid://tntcgmf8pol5" path="res://addons/fpc/spot_light_3d.gd" id="2_bx7cj"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://dgfl3skp075ft" path="res://addons/fpc/EditorModule.gd" id="3_v3ckk"]
 [ext_resource type="Script" uid="uid://u5u7xxlvmcxx" path="res://addons/fpc/debug.gd" id="3_x1wcc"]
 [ext_resource type="Texture2D" uid="uid://bnc47o0yrnls1" path="res://assets/textures/images (4).jpg" id="4_gv6je"]
+[ext_resource type="PackedScene" uid="uid://d4mlpmmrtnu4i" path="res://scenes/monster_spawner.tscn" id="8_q62an"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kp17n"]
 albedo_color = Color(0.909804, 0.596078, 0, 1)
@@ -384,7 +385,7 @@ MarginContainer/constants/margin_top = 10
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_k4wwl"]
 
-[node name="Character" type="CharacterBody3D" node_paths=PackedStringArray("flashlight", "HEAD", "CAMERA", "HEADBOB_ANIMATION", "JUMP_ANIMATION", "CROUCH_ANIMATION", "COLLISION_MESH", "STAMINA_BAR")]
+[node name="Character" type="CharacterBody3D" node_paths=PackedStringArray("flashlight", "HEAD", "CAMERA", "HEADBOB_ANIMATION", "JUMP_ANIMATION", "CROUCH_ANIMATION", "COLLISION_MESH", "STAMINA_BAR", "SANITY_BAR")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 script = ExtResource("1_0t4e8")
 flashlight = NodePath("Head/Camera/SpotLight3D")
@@ -396,6 +397,7 @@ JUMP_ANIMATION = NodePath("Head/JumpAnimation")
 CROUCH_ANIMATION = NodePath("CrouchAnimation")
 COLLISION_MESH = NodePath("Collision")
 STAMINA_BAR = NodePath("UserInterface/StaminaBar")
+SANITY_BAR = NodePath("UserInterface/SanityBar")
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -476,10 +478,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -336.0
+offset_left = -140.0
 offset_top = -26.0
-offset_right = 364.0
-offset_bottom = -21.0
+offset_right = 145.99976
+offset_bottom = -22.0
 grow_horizontal = 2
 grow_vertical = 0
 show_percentage = false
@@ -493,10 +495,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -51.0
-offset_top = -210.0
+offset_left = -38.0
+offset_top = -155.0
 offset_right = -11.0
-offset_bottom = -10.0
+offset_bottom = -20.0
 grow_horizontal = 0
 grow_vertical = 0
 show_percentage = false
@@ -526,3 +528,8 @@ target_position = Vector3(0, 0.5, 0)
 
 [node name="EditorModule" type="Node" parent="."]
 script = ExtResource("3_v3ckk")
+
+[node name="MonsterSpawner" parent="." node_paths=PackedStringArray("player", "darkness_check_point") instance=ExtResource("8_q62an")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.13842762, 0, -0.019061094)
+player = NodePath("")
+darkness_check_point = NodePath("")

@@ -1,0 +1,17 @@
+[gd_scene load_steps=6 format=3 uid="uid://boog3ppefxb7r"]
+
+[ext_resource type="Texture2D" uid="uid://40uyruvjyaut" path="res://assets/models/monitor/monitor_Material.001_BaseColor.jpg" id="1_712wi"]
+[ext_resource type="PackedScene" uid="uid://r2weikxleeni" path="res://assets/models/monitor/monitor.fbx" id="1_r76x4"]
+[ext_resource type="Texture2D" uid="uid://ddq2cvtei8fq" path="res://assets/models/monitor/monitor_Material.001_Normal.jpg" id="2_r76x4"]
+[ext_resource type="Texture2D" uid="uid://xm0yq15f2v16" path="res://assets/models/monitor/monitor_Material.001_Roughness.jpg" id="3_spe5c"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_spe5c"]
+albedo_texture = ExtResource("1_712wi")
+roughness_texture = ExtResource("3_spe5c")
+normal_enabled = true
+normal_texture = ExtResource("2_r76x4")
+
+[node name="monitor" instance=ExtResource("1_r76x4")]
+
+[node name="Cube" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_spe5c")

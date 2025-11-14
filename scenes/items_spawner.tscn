@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://cm3cg5qqbwqv5"]
+
+[ext_resource type="Script" uid="uid://tcrlx5whyqae" path="res://items_spawner.gd" id="1_yacrm"]
+[ext_resource type="PackedScene" uid="uid://ppx6oh3gyutq" path="res://scenes/bottle_prepared.tscn" id="2_e73gt"]
+[ext_resource type="PackedScene" uid="uid://d1q8f0af81k0j" path="res://scenes/s_bar_prepared.tscn" id="3_e73gt"]
+
+[node name="ItemsSpawner" type="Node3D"]
+script = ExtResource("1_yacrm")
+water_bottle_scene = ExtResource("2_e73gt")
+stamina_bar_scene = ExtResource("3_e73gt")
+spawn_interval = 2.0
+
+[node name="Timer" type="Timer" parent="."]
