@@ -24,7 +24,7 @@ extends CharacterBody3D
 ## How high the player jumps.
 @export var jump_velocity : float = 4.5
 ## How far the player turns when the mouse is moved.
-@export var mouse_sensitivity : float = 0.1
+@export var mouse_sensitivity : float = .4
 ## Invert the X axis input for the camera.
 @export var invert_camera_x_axis : bool = false
 ## Invert the Y axis input for the camera.
