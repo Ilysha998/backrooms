@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://bt2qtg6lkri3l"]
+
+[ext_resource type="Texture2D" uid="uid://df41nyuntbmqa" path="res://assets/textures/Wall_light_BaseColor.jpg" id="1_epldw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nknep"]
+albedo_texture = ExtResource("1_epldw")
+emission_enabled = true
+emission = Color(0.5818567, 0.5600237, 0.3937437, 1)
+emission_energy_multiplier = 5.18
+emission_operator = 1
+emission_texture = ExtResource("1_epldw")
+
+[node name="TLight" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.022895515, 0)
+cast_shadow = 0
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_nknep")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -0.1261157, 0)
+light_energy = 5.204
+light_indirect_energy = 5.788
+light_volumetric_fog_energy = 0.4
+light_size = 0.495
+light_specular = 2.485
+shadow_enabled = true
+shadow_blur = 3.39
+spot_range = 7.2855263
+spot_angle = 76.9943
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -0.4842829, 0)
+light_color = Color(1, 1, 0.8039216, 1)
+light_energy = 0.508
+light_indirect_energy = 8.942
+light_volumetric_fog_energy = 2.171
+light_size = 0.533
+light_specular = 11.561
+light_bake_mode = 1
+distance_fade_enabled = true

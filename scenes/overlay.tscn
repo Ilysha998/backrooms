@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://d41vydvhldyh"]
+
+[ext_resource type="Texture2D" uid="uid://b76bcrrc7rkbp" path="res://assets/icons/water-bottle-bottle-svgrepo-com.svg" id="1_d607a"]
+[ext_resource type="Script" uid="uid://cctou5a5wkfj8" path="res://scenes/stamina.gd" id="1_r2eog"]
+
+[node name="Overlay" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="StaminaBar" type="ProgressBar" parent="CanvasLayer"]
+offset_left = 780.0
+offset_top = 611.0
+offset_right = 1136.0
+offset_bottom = 638.0
+script = ExtResource("1_r2eog")
+
+[node name="Thirst" type="TextureRect" parent="CanvasLayer/StaminaBar"]
+layout_mode = 0
+offset_left = -25.0
+offset_top = -32.0
+offset_right = -3.0
+offset_bottom = -10.0
+texture = ExtResource("1_d607a")
+expand_mode = 1
+
+[node name="Sanity" type="ProgressBar" parent="CanvasLayer"]
+offset_left = 780.0
+offset_top = 576.0
+offset_right = 1136.0
+offset_bottom = 603.0
+
+[node name="Thirst" type="TextureRect" parent="CanvasLayer/Sanity"]
+layout_mode = 0
+offset_left = -27.0
+offset_top = 37.0
+offset_right = -5.0
+offset_bottom = 59.0
+texture = ExtResource("1_d607a")
+expand_mode = 1

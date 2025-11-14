@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://cc1w7vnxycmg"]
+
+[ext_resource type="Texture2D" uid="uid://cbvxf8qe5ii55" path="res://assets/textures/Wall_DefaultMaterial_BaseColor.png" id="1_2lk1o"]
+[ext_resource type="Texture2D" uid="uid://dqm73pby5fd7l" path="res://assets/textures/Wall_DefaultMaterial_Normal.png" id="2_cwpe8"]
+[ext_resource type="Texture2D" uid="uid://dmpw2axujk2os" path="res://assets/textures/Wall_DefaultMaterial_Roughness.png" id="3_t56o2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yn7gt"]
+albedo_texture = ExtResource("1_2lk1o")
+roughness_texture = ExtResource("3_t56o2")
+normal_enabled = true
+normal_texture = ExtResource("2_cwpe8")
+uv1_triplanar = true
+
+[node name="Wall_gen" type="Node3D"]
+
+[node name="wall" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.447444, 0)
+use_collision = true
+size = Vector3(16, 5, 0.125)
+material = SubResource("StandardMaterial3D_yn7gt")
