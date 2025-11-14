@@ -1,6 +1,8 @@
-[gd_scene load_steps=22 format=3 uid="uid://cc1m2a1obsyn4"]
+[gd_scene load_steps=24 format=3 uid="uid://cc1m2a1obsyn4"]
 
 [ext_resource type="Script" uid="uid://hutuis63hgev" path="res://addons/fpc/character.gd" id="1_0t4e8"]
+[ext_resource type="Script" uid="uid://tntcgmf8pol5" path="res://addons/fpc/spot_light_3d.gd" id="2_bx7cj"]
+[ext_resource type="Texture2D" uid="uid://mv268ogg3slv" path="res://assets/textures/images (1).jpg" id="2_qaoyu"]
 [ext_resource type="Script" uid="uid://dgfl3skp075ft" path="res://addons/fpc/EditorModule.gd" id="3_v3ckk"]
 [ext_resource type="Script" uid="uid://u5u7xxlvmcxx" path="res://addons/fpc/debug.gd" id="3_x1wcc"]
 
@@ -380,9 +382,10 @@ MarginContainer/constants/margin_top = 10
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_k4wwl"]
 
-[node name="Character" type="CharacterBody3D" node_paths=PackedStringArray("HEAD", "CAMERA", "HEADBOB_ANIMATION", "JUMP_ANIMATION", "CROUCH_ANIMATION", "COLLISION_MESH", "STAMINA_BAR")]
+[node name="Character" type="CharacterBody3D" node_paths=PackedStringArray("flashlight", "HEAD", "CAMERA", "HEADBOB_ANIMATION", "JUMP_ANIMATION", "CROUCH_ANIMATION", "COLLISION_MESH", "STAMINA_BAR")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 script = ExtResource("1_0t4e8")
+flashlight = NodePath("Head/Camera/SpotLight3D")
 default_reticle = "res://addons/fpc/reticles/reticle_1.tscn"
 HEAD = NodePath("Head")
 CAMERA = NodePath("Head/Camera")
@@ -411,6 +414,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="Camera" type="Camera3D" parent="Head"]
 far = 200.0
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Head/Camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.074194e-08, -0.12927294, -0.47452015)
+light_color = Color(0.88235295, 0.9607843, 0.9882353, 1)
+light_energy = 2.01
+light_indirect_energy = 1.323
+light_volumetric_fog_energy = 0.0
+light_projector = ExtResource("2_qaoyu")
+light_size = 0.025
+light_specular = 0.535
+shadow_enabled = true
+spot_range = 11.313453
+spot_angle = 38.839092
+script = ExtResource("2_bx7cj")
 
 [node name="HeadbobAnimation" type="AnimationPlayer" parent="Head"]
 libraries = {
@@ -450,16 +467,17 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="StaminaBar" type="ProgressBar" parent="UserInterface"]
+modulate = Color(0.7882353, 0.7882353, 0.7882353, 0.60784316)
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -485.0
+offset_left = -336.0
 offset_top = -26.0
-offset_right = 485.0
-offset_bottom = -19.0
+offset_right = 364.0
+offset_bottom = -21.0
 grow_horizontal = 2
 grow_vertical = 0
 show_percentage = false
