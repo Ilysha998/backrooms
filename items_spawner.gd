@@ -1,12 +1,20 @@
-# ItemSpawner.gd
 extends Node3D
 
 @export var water_bottle_scene: PackedScene
 @export var stamina_bar_scene: PackedScene
-@export var spawn_radius: float = 20.0 # Радиус, в котором будут появляться предметы
-@export var spawn_interval: float = 10.0 # Интервал спавна в секундах
+@export var spawn_radius: float = 20.0
+@export var spawn_interval: float = 10.0
+
+var total_spawned_count: int = 0
+var water_bottle_count: int = 0
+var stamina_bar_count: int = 0
 
 func _ready():
+	if not water_bottle_scene:
+		push_warning("Переменная 'water_bottle_scene' не назначена в инспекторе.")
+	if not stamina_bar_scene:
+		push_warning("Переменная 'stamina_bar_scene' не назначена в инспекторе.")
+
 	$Timer.wait_time = spawn_interval
 	$Timer.timeout.connect(_on_timer_timeout)
 	$Timer.start()
@@ -18,17 +26,29 @@ func spawn_item():
 	if not water_bottle_scene or not stamina_bar_scene:
 		return
 
-	# Выбираем случайный предмет для спавна
-	var item_scene = water_bottle_scene if randf() > 0.5 else stamina_bar_scene
+	var item_scene
+
+	var random_value = randf()
+
+	if random_value > 0.5:
+		item_scene = water_bottle_scene
+	else:
+		item_scene = stamina_bar_scene
+	
+	
+	if not item_scene:
+		return
 	
 	var item = item_scene.instantiate()
-	
-	# Генерируем случайную позицию в радиусе спавнера
+
+
 	var random_position = Vector3(
 		randf_range(-spawn_radius, spawn_radius),
-		global_position.y, # Спавним на той же высоте, что и спавнер
+		global_position.y,
 		randf_range(-spawn_radius, spawn_radius)
 	)
+
+	var final_position = global_position + random_position
 	
-	item.global_position = global_position + random_position
-	get_parent().add_child(item) # Добавляем предмет на главную сцену
+	get_parent().add_child(item)
+	item.global_position = final_position
