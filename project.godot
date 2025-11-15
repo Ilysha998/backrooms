@@ -11,10 +11,10 @@ config_version=5
 [application]
 
 config/name="Backrooms"
-config/version="0.5"
+config/version="0.6"
 run/main_scene="uid://c3pgylh0ed50q"
 config/features=PackedStringArray("4.5", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://bx6gdmmim5oc0"
 
 [autoload]
 

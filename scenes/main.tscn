@@ -77,7 +77,7 @@ spawn_chance = 1.0
 
 [node name="MusicLightsOff" type="AudioStreamPlayer" parent="SoundHandler"]
 stream = ExtResource("13_trceg")
-volume_db = 1.2
+volume_db = -16.317
 autoplay = true
 parameters/looping = true
 
@@ -87,8 +87,10 @@ autoplay = true
 parameters/looping = true
 
 [node name="ItemsSpawner" parent="." instance=ExtResource("14_jkv2x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.16, 0)
-spawn_interval = 1.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2242608, 0)
+spawn_radius = 500.0
+spawn_interval = 0.05
+max_spawn_attempts = 500
 
 [node name="LampGenerator" type="Node3D" parent="."]
 script = ExtResource("8_tipki")
