@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fhw2auide1fo"
-path.s3tc="res://.godot/imported/dirtmasktextureexample.png-685b87cf3d07641b191e0a86be2ab60a.s3tc.ctex"
+uid="uid://bispi6ujly1mm"
+path.s3tc="res://.godot/imported/exitsign_Material_BaseColor.jpg-6cc847fd832266b7f73eb0ec37aed768.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/textures/dirtmasktextureexample.png"
-dest_files=["res://.godot/imported/dirtmasktextureexample.png-685b87cf3d07641b191e0a86be2ab60a.s3tc.ctex"]
+source_file="res://assets/models/exit/exitsign_Material_BaseColor.jpg"
+dest_files=["res://.godot/imported/exitsign_Material_BaseColor.jpg-6cc847fd832266b7f73eb0ec37aed768.s3tc.ctex"]
 
 [params]
 

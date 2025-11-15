@@ -1,0 +1,15 @@
+[remap]
+
+importer="import_gif_to_sprite_frames"
+type="SpriteFrames"
+uid="uid://cu105lupofhr"
+path="res://.godot/imported/glkitch.gif-859e7c2df54f2908aa68c9d610316123.tres"
+
+[deps]
+
+source_file="res://assets/textures/glkitch.gif"
+dest_files=["res://.godot/imported/glkitch.gif-859e7c2df54f2908aa68c9d610316123.tres"]
+
+[params]
+
+frames_per_second=30

@@ -1,0 +1,15 @@
+[remap]
+
+importer="import_gif_to_sprite_frames"
+type="SpriteFrames"
+uid="uid://cwq0cos84tctl"
+path="res://.godot/imported/Двойная Экспозиция.gif-a90a593230a3302100366c7a0b3b0f12.tres"
+
+[deps]
+
+source_file="res://assets/textures/Двойная Экспозиция.gif"
+dest_files=["res://.godot/imported/Двойная Экспозиция.gif-a90a593230a3302100366c7a0b3b0f12.tres"]
+
+[params]
+
+frames_per_second=30
