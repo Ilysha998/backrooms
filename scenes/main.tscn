@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://86ukk0yjxy4y"]
+[gd_scene load_steps=21 format=3 uid="uid://86ukk0yjxy4y"]
 
 [ext_resource type="Script" uid="uid://cfxefp2ne4sn5" path="res://scripts/loading.gd" id="1_eb6dy"]
 [ext_resource type="PackedScene" uid="uid://cc1m2a1obsyn4" path="res://addons/fpc/character.tscn" id="1_o5qli"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://bro3j665sl0st" path="res://scenes/column_gen.tscn" id="8_85g3d"]
 [ext_resource type="Script" uid="uid://bt5ge5ec0hfs6" path="res://scripts/lamp_generator.gd" id="8_tipki"]
 [ext_resource type="PackedScene" uid="uid://dxlqfve7w7nvq" path="res://scenes/bixbox_gen.tscn" id="9_85g3d"]
+[ext_resource type="AudioStream" uid="uid://qnmwwceigrhf" path="res://assets/sounds/buzz.ogg" id="10_jkv2x"]
 [ext_resource type="AudioStream" uid="uid://dp03rpk8aamay" path="res://assets/sounds/Atmosphere.ogg" id="13_trceg"]
 [ext_resource type="PackedScene" uid="uid://cm3cg5qqbwqv5" path="res://scenes/items_spawner.tscn" id="14_jkv2x"]
 [ext_resource type="Script" uid="uid://imw67j1adnow" path="res://scripts/LoadingScreen.gd" id="16_jbj1t"]
@@ -68,6 +69,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -500, 0, -500)
 script = ExtResource("2_0wfyh")
 room_prefabs = Array[PackedScene]([ExtResource("4_tefeu"), ExtResource("5_o6xl0"), ExtResource("9_85g3d"), ExtResource("8_85g3d"), ExtResource("9_85g3d"), ExtResource("5_o6xl0")])
 map_bounds = Vector2i(100, 100)
+cell_size = Vector2i(16, 16)
 spawn_chance = 1.0
 
 [node name="SoundHandler" type="Node3D" parent="."]
@@ -75,6 +77,11 @@ spawn_chance = 1.0
 [node name="MusicLightsOff" type="AudioStreamPlayer" parent="SoundHandler"]
 stream = ExtResource("13_trceg")
 volume_db = 1.2
+autoplay = true
+parameters/looping = true
+
+[node name="MusicLightsOn" type="AudioStreamPlayer" parent="SoundHandler"]
+stream = ExtResource("10_jkv2x")
 autoplay = true
 parameters/looping = true
 
@@ -102,15 +109,14 @@ script = ExtResource("16_jbj1t")
 
 [node name="Label" type="Label" parent="LoadingScreen"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-
-[node name="ColorRect" type="ColorRect" parent="LoadingScreen"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 33.0
+offset_top = 18.0
+offset_right = 188.0
+offset_bottom = 41.0
 
 [node name="ProgressBar" type="ProgressBar" parent="LoadingScreen"]
 layout_mode = 0
-offset_right = 4.0
-offset_bottom = 27.0
+offset_left = 202.0
+offset_top = 16.0
+offset_right = 439.0
+offset_bottom = 43.0
