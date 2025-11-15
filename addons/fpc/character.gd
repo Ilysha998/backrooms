@@ -57,9 +57,9 @@ var is_dead: bool = false
 # НОВЫЙ РАЗДЕЛ: Рассудок
 @export_group("Sanity")
 ## Максимальное количество рассудка.
-@export var max_sanity : float = 100.0
+@export var max_sanity : float = 1000.0
 ## Текущее количество рассудка.
-@export var current_sanity : float = 100.0
+@export var current_sanity : float = 1000.0
 ## Скорость уменьшения рассудка в секунду.
 @export var sanity_drain_rate : float = 0.1
 ## Количество рассудка, восстанавливаемое одной бутылкой воды.
