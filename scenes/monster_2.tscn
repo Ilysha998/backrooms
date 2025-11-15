@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6f8lwbmrqme"]
+
+[ext_resource type="Script" uid="uid://cwfq7fk11s1g" path="res://monster.gd" id="1_g3y7j"]
+[ext_resource type="PackedScene" uid="uid://b8lxfyjatv65k" path="res://scenes/monster.tscn" id="2_cv6h0"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2m7rl"]
+height = 3.0981445
+
+[node name="MonsterHitbox" type="Area3D"]
+script = ExtResource("1_g3y7j")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.056117058, 1.932822, -0.5465666)
+shape = SubResource("CapsuleShape3D_2m7rl")
+
+[node name="Monster" parent="." instance=ExtResource("2_cv6h0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7969956, 0.9794861, 2.3841858e-07)
+script = null
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

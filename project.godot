@@ -31,6 +31,7 @@ window/stretch/mode="viewport"
 water_bottle=""
 stamina_bar=""
 Walls=""
+player=""
 
 [input]
 
