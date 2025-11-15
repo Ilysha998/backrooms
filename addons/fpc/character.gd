@@ -57,9 +57,9 @@ var is_dead: bool = false
 # НОВЫЙ РАЗДЕЛ: Рассудок
 @export_group("Sanity")
 ## Максимальное количество рассудка.
-@export var max_sanity : float = 1000.0
+@export var max_sanity : float = 100.0
 ## Текущее количество рассудка.
-@export var current_sanity : float = 1000.0
+@export var current_sanity : float = 100.0
 ## Скорость уменьшения рассудка в секунду.
 @export var sanity_drain_rate : float = 0.1
 ## Количество рассудка, восстанавливаемое одной бутылкой воды.
@@ -208,6 +208,7 @@ var stamina_boost_timer : float = 0.0
 func _ready():
 	death_menu_scene.visible = false
 	user_interface.visible = true
+	sanity_drain_rate = 1
 	#It is safe to comment this line if your game doesn't start with the mouse captured
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -521,12 +522,12 @@ func handle_sanity(delta):
 		SANITY_BAR.value = current_sanity
 	
 	# --- ЛОГИКА СПАВНА МОНСТРОВ (без приказов) ---
-	if current_sanity < 500:
+	if current_sanity < 50:
 		monster_spawn_timer -= delta
 		if monster_spawn_timer <= 0:
 			monster_spawn_timer = monster_spawn_interval
 			spawn_monster()
-	elif current_sanity >= 500 and not monster_instances.is_empty():
+	elif current_sanity >= 50 and not monster_instances.is_empty():
 		despawn_all_monsters()
 
 func spawn_monster():

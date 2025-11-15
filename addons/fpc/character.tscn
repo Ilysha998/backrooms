@@ -409,8 +409,7 @@ death_menu_scene = NodePath("DEATH")
 user_interface = NodePath("UserInterface")
 flashlight = NodePath("Head/Camera/SpotLight3D")
 default_reticle = "uid://3mij3cjhkwsm"
-max_sanity = 1000.0
-current_sanity = 1000.0
+sanity_drain_rate = 0.001
 monster_scene = ExtResource("2_q34qd")
 HEAD = NodePath("Head")
 CAMERA = NodePath("Head/Camera")
@@ -556,6 +555,7 @@ target_position = Vector3(0, 0.5, 0)
 script = ExtResource("3_v3ckk")
 
 [node name="DEATH" type="Control" parent="."]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
