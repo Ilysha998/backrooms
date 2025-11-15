@@ -1,5 +1,7 @@
-
 extends Node3D
+
+signal progress_updated(percentage) # Отправляет прогресс (0.0 до 1.0)
+signal generation_finished() 
 
 @export var room_prefabs: Array[PackedScene]
 
@@ -26,19 +28,25 @@ func _ready():
 	for child in get_children():
 		child.queue_free()
 		
-	generate_level()
+	#generate_level()
 
 # --- Логика генерации ---
 func generate_level():
 	if room_prefabs.is_empty():
 		push_warning("Массив 'Room Prefabs' пуст! Генерация невозможна.")
+		emit_signal("generation_finished") # Сразу завершаем, если нечего делать
 		return
 
-	# Проходим по каждой ячейке на нашей воображаемой карте.
+	# Очистка перед генерацией
+	for child in get_children():
+		child.queue_free()
+		
+	var total_cells = map_bounds.x * map_bounds.y
+	var processed_cells = 0
+	
+	# Проходим по каждой ячейке
 	for x in range(map_bounds.x):
 		for y in range(map_bounds.y):
-			
-			# "Бросаем кубик": решаем, будем ли мы спавнить комнату здесь.
 			if rng.randf() < spawn_chance:
 				# Если шанс сработал, выбираем СЛУЧАЙНУЮ комнату из всего пула.
 				var random_room_scene = room_prefabs.pick_random()
@@ -61,5 +69,24 @@ func generate_level():
 				
 				# Добавляем созданную комнату на сцену.
 				add_child(room_instance)
+			if rng.randf() < spawn_chance:
+				var random_room_scene = room_prefabs.pick_random()
+				var room_instance = random_room_scene.instantiate()
+				var offset_x = (rng.randf() - 0.5) * 2.0
+				var offset_z = (rng.randf() - 0.5) * 2.0
+				var world_pos = Vector3(x * cell_size.x + offset_x, 0, y * cell_size.y + offset_z)
+				room_instance.position = world_pos
+				add_child(room_instance)
+			
+			processed_cells += 1
+			
+			# ЖДЕМ СЛЕДУЮЩЕГО КАДРА каждые 25 ячеек, чтобы не заморозить игру
+			if processed_cells % 25 == 0:
+				# Обновляем прогресс
+				emit_signal("progress_updated", float(processed_cells) / total_cells)
+				# Эта строка - ключ к асинхронности. Она приостанавливает выполнение функции
+				# до следующего кадра, позволяя движку обновить экран.
+				await get_tree().process_frame
 
 	print("Generation complete! Total rooms spawned: ", get_child_count())
+	emit_signal("generation_finished")
