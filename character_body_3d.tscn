@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://cve8bs5nxgguu"]
+
+[ext_resource type="Script" uid="uid://c0y4mqba0cbfm" path="res://scenes/monster.gd" id="1_fb3t6"]
+[ext_resource type="PackedScene" uid="uid://b8lxfyjatv65k" path="res://scenes/monster.tscn" id="1_iwpo4"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fb3t6"]
+height = 3.0981445
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+script = ExtResource("1_fb3t6")
+attack_speed = 6.0
+
+[node name="Monster" parent="." instance=ExtResource("1_iwpo4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.21741006, 0, 0.54656684)
+script = null
+
+[node name="Hitbox" type="Area3D" parent="Monster"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.853383, 0, -2.3841858e-07)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Monster/Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.673297, 0.9794861, -0.5465666)
+shape = SubResource("CapsuleShape3D_fb3t6")
+
+[connection signal="body_entered" from="Monster/Hitbox" to="." method="_on_hitbox_body_entered"]

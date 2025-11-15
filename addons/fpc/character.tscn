@@ -1,13 +1,14 @@
-[gd_scene load_steps=27 format=3 uid="uid://cc1m2a1obsyn4"]
+[gd_scene load_steps=28 format=3 uid="uid://cc1m2a1obsyn4"]
 
 [ext_resource type="Script" uid="uid://hutuis63hgev" path="res://addons/fpc/character.gd" id="1_0t4e8"]
-[ext_resource type="Script" uid="uid://tntcgmf8pol5" path="res://addons/fpc/spot_light_3d.gd" id="2_bx7cj"]
+[ext_resource type="Script" path="res://addons/fpc/spot_light_3d.gd" id="2_bx7cj"]
+[ext_resource type="PackedScene" uid="uid://b6f8lwbmrqme" path="res://scenes/monster_2.tscn" id="2_q34qd"]
 [ext_resource type="Texture2D" uid="uid://mv268ogg3slv" path="res://assets/textures/images (1).jpg" id="2_qaoyu"]
 [ext_resource type="Texture2D" uid="uid://b0d5phlxjcyfr" path="res://assets/textures/images (3).jpg" id="3_qaoyu"]
 [ext_resource type="Script" uid="uid://dgfl3skp075ft" path="res://addons/fpc/EditorModule.gd" id="3_v3ckk"]
 [ext_resource type="Script" uid="uid://u5u7xxlvmcxx" path="res://addons/fpc/debug.gd" id="3_x1wcc"]
 [ext_resource type="Texture2D" uid="uid://bnc47o0yrnls1" path="res://assets/textures/images (4).jpg" id="4_gv6je"]
-[ext_resource type="PackedScene" uid="uid://d4mlpmmrtnu4i" path="res://scenes/monster_spawner.tscn" id="8_q62an"]
+[ext_resource type="Script" uid="uid://ds4heqpk6rwth" path="res://addons/fpc/die_scene.gd" id="9_ex63h"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kp17n"]
 albedo_color = Color(0.909804, 0.596078, 0, 1)
@@ -385,12 +386,14 @@ MarginContainer/constants/margin_top = 10
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_k4wwl"]
 
-[node name="Character" type="CharacterBody3D" node_paths=PackedStringArray("flashlight", "HEAD", "CAMERA", "HEADBOB_ANIMATION", "JUMP_ANIMATION", "CROUCH_ANIMATION", "COLLISION_MESH", "STAMINA_BAR", "SANITY_BAR")]
+[node name="Character" type="CharacterBody3D" node_paths=PackedStringArray("death_menu_scene", "flashlight", "HEAD", "CAMERA", "HEADBOB_ANIMATION", "JUMP_ANIMATION", "CROUCH_ANIMATION", "COLLISION_MESH", "STAMINA_BAR", "SANITY_BAR") groups=["player"]]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 script = ExtResource("1_0t4e8")
+death_menu_scene = NodePath("DieScene")
 flashlight = NodePath("Head/Camera/SpotLight3D")
-default_reticle = "res://addons/fpc/reticles/reticle_1.tscn"
+default_reticle = "uid://3mij3cjhkwsm"
 sanity_drain_rate = 1.0
+monster_scene = ExtResource("2_q34qd")
 HEAD = NodePath("Head")
 CAMERA = NodePath("Head/Camera")
 HEADBOB_ANIMATION = NodePath("Head/HeadbobAnimation")
@@ -531,5 +534,40 @@ target_position = Vector3(0, 0.5, 0)
 [node name="EditorModule" type="Node" parent="."]
 script = ExtResource("3_v3ckk")
 
-[node name="MonsterSpawner" parent="." instance=ExtResource("8_q62an")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.13842762, 0, -0.019061094)
+[node name="DieScene" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 92.0
+offset_right = 249.0
+offset_bottom = 40.0
+script = ExtResource("9_ex63h")
+
+[node name="ColorRect" type="ColorRect" parent="DieScene"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="RestartButton" type="Button" parent="DieScene"]
+layout_mode = 0
+offset_left = 92.0
+offset_top = 80.0
+offset_right = 225.0
+offset_bottom = 117.0
+
+[node name="MenuButton" type="Button" parent="DieScene"]
+layout_mode = 0
+offset_left = 99.0
+offset_top = 126.0
+offset_right = 216.0
+offset_bottom = 220.0
+
+[node name="Label" type="Label" parent="DieScene"]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 54.0
+offset_right = 273.0
+offset_bottom = 79.0
+
+[connection signal="pressed" from="DieScene/RestartButton" to="DieScene" method="_on_restart_button_pressed"]
+[connection signal="pressed" from="DieScene/MenuButton" to="DieScene" method="_on_menu_button_pressed"]

@@ -1,10 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://d4mlpmmrtnu4i"]
+[gd_scene load_steps=2 format=3 uid="uid://d4mlpmmrtnu4i"]
 
 [ext_resource type="Script" uid="uid://c7qf3hm25kbp0" path="res://monster_spawner.gd" id="1_7efvl"]
-[ext_resource type="PackedScene" uid="uid://b8lxfyjatv65k" path="res://scenes/monster.tscn" id="2_ffbp8"]
 
 [node name="MonsterSpawner" type="Node3D"]
 script = ExtResource("1_7efvl")
-monster_scene = ExtResource("2_ffbp8")
 
 [node name="Timer" type="Timer" parent="."]
