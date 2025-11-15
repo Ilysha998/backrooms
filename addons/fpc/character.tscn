@@ -409,7 +409,7 @@ death_menu_scene = NodePath("DEATH")
 user_interface = NodePath("UserInterface")
 flashlight = NodePath("Head/Camera/SpotLight3D")
 default_reticle = "uid://3mij3cjhkwsm"
-sanity_drain_rate = 0.01
+sanity_drain_rate = 0.001
 monster_scene = ExtResource("2_q34qd")
 HEAD = NodePath("Head")
 CAMERA = NodePath("Head/Camera")
@@ -506,6 +506,8 @@ offset_right = 145.99976
 offset_bottom = -22.0
 grow_horizontal = 2
 grow_vertical = 0
+max_value = 1000.0
+step = 1.0
 show_percentage = false
 
 [node name="SanityBar" type="ProgressBar" parent="UserInterface"]
@@ -553,6 +555,7 @@ target_position = Vector3(0, 0.5, 0)
 script = ExtResource("3_v3ckk")
 
 [node name="DEATH" type="Control" parent="."]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0

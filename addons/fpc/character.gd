@@ -208,6 +208,7 @@ var stamina_boost_timer : float = 0.0
 func _ready():
 	death_menu_scene.visible = false
 	user_interface.visible = true
+	sanity_drain_rate = 1
 	#It is safe to comment this line if your game doesn't start with the mouse captured
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -519,12 +520,13 @@ func handle_sanity(delta):
 	if SANITY_BAR:
 		SANITY_BAR.value = current_sanity
 	
-	if current_sanity < 80:
+	# --- ЛОГИКА СПАВНА МОНСТРОВ (без приказов) ---
+	if current_sanity < 50:
 		monster_spawn_timer -= delta
 		if monster_spawn_timer <= 0:
 			monster_spawn_timer = monster_spawn_interval
 			spawn_monster()
-	elif current_sanity >= 80 and not monster_instances.is_empty():
+	elif current_sanity >= 50 and not monster_instances.is_empty():
 		despawn_all_monsters()
 
 func spawn_monster():
