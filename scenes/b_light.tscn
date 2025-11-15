@@ -13,6 +13,7 @@ normal_texture = ExtResource("2_2dxbg")
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.022895515, 0)
 cast_shadow = 0
+use_collision = true
 size = Vector3(1, 0.1, 1)
 material = SubResource("StandardMaterial3D_bjph4")
 

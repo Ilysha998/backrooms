@@ -1,0 +1,23 @@
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://d3dkgabdm8wjp"]
+
+[ext_resource type="FontFile" uid="uid://bui5l63xx1b43" path="res://assets/textures/VCR OSD Mono Cyr.ttf" id="1_6il6t"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dts3x"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b4h4y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1kjss"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mk0s5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_expxp"]
+
+[resource]
+default_font = ExtResource("1_6il6t")
+Button/colors/font_color = Color(0.14117648, 0.7529412, 0, 1)
+Button/fonts/font = ExtResource("1_6il6t")
+Button/styles/disabled = SubResource("StyleBoxEmpty_dts3x")
+Button/styles/focus = SubResource("StyleBoxEmpty_b4h4y")
+Button/styles/hover = SubResource("StyleBoxEmpty_1kjss")
+Button/styles/normal = SubResource("StyleBoxEmpty_mk0s5")
+Button/styles/pressed = SubResource("StyleBoxEmpty_expxp")

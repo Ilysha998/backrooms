@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bk4pgwa6vn5ma"]
+[gd_scene load_steps=15 format=3 uid="uid://bk4pgwa6vn5ma"]
 
 [ext_resource type="Texture2D" uid="uid://bo6psgigxw880" path="res://assets/textures/Wall_floor_BaseColor.png" id="1_gldc4"]
 [ext_resource type="Texture2D" uid="uid://clejokebvwq08" path="res://assets/textures/CeilingTile_Diffuse[1].jpg" id="1_nakos"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://b8ssilomyhjt2" path="res://assets/textures/CeilingTile_Roughness[1].jpg" id="4_blm8a"]
 [ext_resource type="Texture2D" uid="uid://dqm73pby5fd7l" path="res://assets/textures/Wall_DefaultMaterial_Normal.png" id="5_nakos"]
 [ext_resource type="Texture2D" uid="uid://dmpw2axujk2os" path="res://assets/textures/Wall_DefaultMaterial_Roughness.png" id="6_jh32y"]
+[ext_resource type="PackedScene" uid="uid://cg0br4vwm6t6a" path="res://scenes/exit_gen.tscn" id="11_mlgqr"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2lpho"]
 albedo_texture = ExtResource("1_gldc4")
@@ -35,7 +36,8 @@ metallic_texture = ExtResource("2_jh32y")
 roughness_texture = ExtResource("4_blm8a")
 normal_enabled = true
 normal_texture = ExtResource("3_be0no")
-uv1_scale = Vector3(1000, 1000, 1000)
+uv1_triplanar = true
+uv1_world_triplanar = true
 
 [node name="Map" type="Node3D"]
 
@@ -73,3 +75,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.1, 0)
 use_collision = true
 size = Vector3(1000, 0.125, 1000)
 material = SubResource("StandardMaterial3D_blm8a")
+
+[node name="ExitGen" parent="." instance=ExtResource("11_mlgqr")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 459.405, 0.236, 56.1)

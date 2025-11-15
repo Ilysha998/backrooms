@@ -1,5 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://b8lxfyjatv65k"]
+[gd_scene load_steps=3 format=3 uid="uid://b8lxfyjatv65k"]
 
 [ext_resource type="PackedScene" uid="uid://cmsatot68hfip" path="res://scenes/accurate_smiler_backrooms_blender_3.22.glb" id="1_uwnm8"]
+[ext_resource type="Script" uid="uid://c0y4mqba0cbfm" path="res://scenes/monster.gd" id="2_1cbnp"]
 
 [node name="Monster" instance=ExtResource("1_uwnm8")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+script = ExtResource("2_1cbnp")
+
+[node name="Sketchfab_model" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 3.6244469, 0, 0)
+
+[node name="Skeleton3D" parent="Sketchfab_model/root/GLTF_SceneRootNode/Armature_8/GLTF_created_0" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.908472, 0, 0)

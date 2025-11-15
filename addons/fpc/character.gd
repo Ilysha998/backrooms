@@ -8,6 +8,10 @@ extends CharacterBody3D
 
 #region Character Export Group
 
+@export var death_menu_scene: Control
+var is_dead: bool = false
+@export var user_interface: Control
+
 ## The settings for the character's movement and feel.
 @export_category("Character")
 ## The speed that the character moves at without crouching or sprinting.
@@ -22,7 +26,7 @@ extends CharacterBody3D
 ## How fast the character speeds up and slows down when Motion Smoothing is on.
 @export var acceleration : float = 10.0
 ## How high the player jumps.
-@export var jump_velocity : float = 4.5
+@export var jump_velocity : float = 0.0
 ## How far the player turns when the mouse is moved.
 @export var mouse_sensitivity : float = .4
 ## Invert the X axis input for the camera.
@@ -69,6 +73,20 @@ extends CharacterBody3D
 @export var stamina_boost_duration : float = 15.0
 ## Множитель расхода выносливости под эффектом (0.5 = 50% расход).
 @export var stamina_boost_multiplier : float = 0.5
+#endregion
+
+#region Monster Logic Export Group
+# НОВЫЙ РАЗДЕЛ: Логика монстра
+@export_group("Monster Logic")
+## Сцена монстра для спавна.
+@export var monster_scene: PackedScene
+## Интервал спавна новых монстров в секундах.
+@export var monster_spawn_interval: float = 10.0
+
+# Внутренние переменные
+var monster_spawn_timer: float = 0.0
+var monster_instances: Array[Node3D] = []
+var is_monster_attack_mode: bool = false
 #endregion
 
 #region Nodes Export Group
@@ -188,6 +206,9 @@ var stamina_boost_timer : float = 0.0
 #region Main Control Flow
 
 func _ready():
+	death_menu_scene.visible = false
+	user_interface.visible = true
+	sanity_drain_rate = 1
 	#It is safe to comment this line if your game doesn't start with the mouse captured
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -209,6 +230,9 @@ func _ready():
 	if STAMINA_BAR:
 		STAMINA_BAR.max_value = max_stamina
 		STAMINA_BAR.value = current_stamina
+	
+	# Добавляем игрока в группу "player", чтобы монстр мог его найти
+	add_to_group("player")
 		
 
 func _input(event):
@@ -224,16 +248,35 @@ func _process(_delta):
 		handle_pausing()
 
 	update_debug_menu_per_frame()
+	var step_sound = $StepAudioPlayer # Предполагается, что у вас есть узел AudioStreamPlayer с именем StepAudioPlayer
+	var is_moving = false
 
-
+	if Input.is_action_pressed("ui_right"):
+		is_moving = true
+	elif Input.is_action_pressed("ui_left"):
+		is_moving = true
+	elif Input.is_action_pressed("ui_up"):
+		is_moving = true
+	elif Input.is_action_pressed("ui_down"):
+		is_moving = true
+	else:
+		is_moving = false
+	if is_moving:
+		# Воспроизводите звук шагов, если он еще не играет
+		if !step_sound.playing:
+			step_sound.play()
+	else:
+		step_sound.stop()
+		
 func _physics_process(delta): # Most things happen here.
+	if is_dead:
+		return
 	# Gravity
 	if dynamic_gravity:
 		gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 	if not is_on_floor() and gravity and gravity_enabled:
 		velocity.y -= gravity * delta
 		
-	# НОВЫЙ КОД: Вызов функций для управления рассудком и бонусами
 	handle_sanity(delta)
 	handle_stamina_boost_timer(delta)
 	
@@ -243,22 +286,20 @@ func _physics_process(delta): # Most things happen here.
 	var input_dir = Vector2.ZERO
 	
 
-	if not immobile: # Immobility works by interrupting user input, so other forces can still be applied to the player
+	if not immobile:
 		input_dir = Input.get_vector(controls.LEFT, controls.RIGHT, controls.FORWARD, controls.BACKWARD)
 	
 	
 	handle_movement(delta, input_dir)
 	
-	# НОВЫЙ КОД: Проверка столкновений с предметами после движения
 	handle_collisions()
 
 	handle_head_rotation()
 
-	# The player is not able to stand up if the ceiling is too low
 	low_ceiling = $CrouchCeilingDetection.is_colliding()
 
 	handle_state(input_dir)
-	if dynamic_fov: # This may be changed to an AnimationPlayer
+	if dynamic_fov:
 		update_camera_fov()
 
 	if view_bobbing:
@@ -269,7 +310,7 @@ func _physics_process(delta): # Most things happen here.
 
 	update_debug_menu_per_tick()
 
-	was_on_floor = is_on_floor() # This must always be at the end of physics_process
+	was_on_floor = is_on_floor()
 
 #endregion
 
@@ -277,11 +318,11 @@ func _physics_process(delta): # Most things happen here.
 
 func handle_jumping():
 	if jumping_enabled:
-		if continuous_jumping: # Hold down the jump button
+		if continuous_jumping:
 			if Input.is_action_pressed(controls.JUMP) and is_on_floor() and !low_ceiling:
 				if jump_animation:
 					JUMP_ANIMATION.play("jump", 0.25)
-				velocity.y += jump_velocity # Adding instead of setting so jumping on slopes works properly
+				velocity.y += jump_velocity
 		else:
 			if Input.is_action_just_pressed(controls.JUMP) and is_on_floor() and !low_ceiling:
 				if jump_animation:
@@ -293,7 +334,6 @@ func handle_movement(delta, input_dir):
 	var direction = input_dir.rotated(-HEAD.rotation.y)
 	direction = Vector3(direction.x, 0, direction.y)
 	
-	# ИЗМЕНЕНИЕ: Сохраняем результат move_and_slide() для обработки столкновений
 	move_and_slide()
 
 	if in_air_momentum:
@@ -325,7 +365,7 @@ func handle_head_rotation():
 		HEAD.rotation_degrees.x -= mouseInput.y * mouse_sensitivity
 
 	if controller_support:
-		var controller_view_rotation = Input.get_vector(controller_controls.LOOK_DOWN, controller_controls.LOOK_UP, controller_controls.LOOK_RIGHT, controller_controls.LOOK_LEFT) * look_sensitivity # These are inverted because of the nature of 3D rotation.
+		var controller_view_rotation = Input.get_vector(controller_controls.LOOK_DOWN, controller_controls.LOOK_UP, controller_controls.LOOK_RIGHT, controller_controls.LOOK_LEFT) * look_sensitivity
 		if invert_camera_y_axis:
 			HEAD.rotation.x += controller_view_rotation.x * -1
 		else:
@@ -340,8 +380,7 @@ func handle_head_rotation():
 	HEAD.rotation.x = clamp(HEAD.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
 
-func check_controls(): # If you add a control, you might want to add a check for it here.
-	# The actions are being disabled so the engine doesn't halt the entire project in debug mode
+func check_controls():
 	if !InputMap.has_action(controls.JUMP):
 		push_error("No control mapped for jumping. Please add an input map control. Disabling jump.")
 		jumping_enabled = false
@@ -373,7 +412,6 @@ func check_controls(): # If you add a control, you might want to add a check for
 
 func handle_stamina(delta):
 	if state == "sprinting":
-		# ИЗМЕНЕНИЕ: Учитываем бонус от батончика
 		var current_drain_rate = stamina_drain_rate
 		if is_stamina_boosted:
 			current_drain_rate *= stamina_boost_multiplier
@@ -400,7 +438,7 @@ func handle_stamina(delta):
 
 func handle_state(moving):
 	if sprint_enabled:
-		if sprint_mode == 0: # Hold to Sprint
+		if sprint_mode == 0:
 			if Input.is_action_pressed(controls.SPRINT) and state != "crouching" and current_stamina > 0:
 				if moving:
 					if state != "sprinting":
@@ -410,7 +448,7 @@ func handle_state(moving):
 						enter_normal_state()
 			elif state == "sprinting":
 				enter_normal_state()
-		elif sprint_mode == 1: # Toggle Sprint
+		elif sprint_mode == 1:
 			if moving:
 				if Input.is_action_pressed(controls.SPRINT) and state == "normal" and current_stamina > 0:
 					enter_sprint_state()
@@ -441,9 +479,7 @@ func handle_state(moving):
 							enter_normal_state()
 
 
-# Any enter state function should only be called once when you want to enter that state, not every frame.
 func enter_normal_state():
-	#print("entering normal state")
 	var prev_state = state
 	if prev_state == "crouching":
 		CROUCH_ANIMATION.play_backwards("crouch")
@@ -455,13 +491,11 @@ func enter_normal_state():
 	speed = base_speed
 
 func enter_crouch_state():
-	#print("entering crouch state")
 	state = "crouching"
 	speed = crouch_speed
 	CROUCH_ANIMATION.play("crouch")
 
 func enter_sprint_state():
-	#print("entering sprint state")
 	var prev_state = state
 	if prev_state == "crouching":
 		CROUCH_ANIMATION.play_backwards("crouch")
@@ -471,61 +505,85 @@ func enter_sprint_state():
 #endregion
 
 #region Sanity and Powerups
-# НОВЫЙ РАЗДЕЛ
 
-# Управляет уменьшением рассудка и обновлением UI
+# region Sanity and Powerups
+
 func handle_sanity(delta):
+	# Уменьшаем рассудок
 	if current_sanity > 0:
 		current_sanity -= sanity_drain_rate * delta
-		current_sanity = max(0, current_sanity) # Убедимся, что рассудок не уходит в минус
+		current_sanity = max(0, current_sanity)
+		
+	if current_sanity == 0:
+		die()
 	
 	if SANITY_BAR:
 		SANITY_BAR.value = current_sanity
+	
+	# --- ЛОГИКА СПАВНА МОНСТРОВ (без приказов) ---
+	if current_sanity < 50:
+		monster_spawn_timer -= delta
+		if monster_spawn_timer <= 0:
+			monster_spawn_timer = monster_spawn_interval
+			spawn_monster()
+	elif current_sanity >= 50 and not monster_instances.is_empty():
+		despawn_all_monsters()
 
-# Управляет таймером бонуса выносливости
+func spawn_monster():
+	if not monster_scene:
+		print("ОШИБКА: Сцена монстра не назначена в инспекторе игрока!")
+		return
+	
+	var new_monster = monster_scene.instantiate()
+	
+	var spawn_position = global_transform.origin - global_transform.basis.z * 30.0
+	new_monster.global_position = spawn_position
+	
+	get_tree().root.add_child(new_monster)
+	monster_instances.append(new_monster)
+	
+	# Строка, вызывавшая ошибку, УДАЛЕНА.
+	# Новому монстру не нужна команда, он сам разберется.
+	
+func despawn_all_monsters():
+	print("Рассудок восстановлен. Удаляю всех монстров.")
+	for monster in monster_instances:
+		if is_instance_valid(monster):
+			monster.queue_free()
+	monster_instances.clear()
+
 func handle_stamina_boost_timer(delta):
 	if is_stamina_boosted:
 		stamina_boost_timer -= delta
 		if stamina_boost_timer <= 0:
 			is_stamina_boosted = false
-			#print("Stamina boost expired!") # Для отладки
 
-# Проверяет столкновения с предметами
 func handle_collisions():
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
 		if collision:
 			var collider = collision.get_collider()
 			if collider:
-				# Проверяем, есть ли у объекта группа "water_bottle"
 				if collider.is_in_group("water_bottle"):
 					collect_water(collider)
-				
-				# Проверяем, есть ли у объекта группа "stamina_bar"
 				if collider.is_in_group("stamina_bar"):
 					collect_stamina_bar(collider)
 
-# Функция для подбора бутылки с водой
 func collect_water(bottle_node):
 	current_sanity += water_restore_amount
 	current_sanity = min(current_sanity, max_sanity)
 	bottle_node.queue_free()
-	print("Water collected! Sanity: ", current_sanity)
 
-# Функция для подбора батончика
 func collect_stamina_bar(bar_node):
 	is_stamina_boosted = true
 	stamina_boost_timer = stamina_boost_duration
 	bar_node.queue_free()
-	print("Stamina bar collected! Boost active.")
 
 #endregion
 
 #region Animation Handling
 
 func initialize_animations():
-	# Reset the camera position
-	# If you want to change the default head height, change these animations.
 	HEADBOB_ANIMATION.play("RESET")
 	JUMP_ANIMATION.play("RESET")
 	CROUCH_ANIMATION.play("RESET")
@@ -546,11 +604,7 @@ func play_headbob_animation(moving):
 		HEADBOB_ANIMATION.play(use_headbob_animation, 0.25)
 		HEADBOB_ANIMATION.speed_scale = (current_speed / base_speed) * 1.75
 		if !was_playing:
-			HEADBOB_ANIMATION.seek(float(randi() % 2)) # Randomize the initial headbob direction
-			# Let me explain that piece of code because it looks like it does the opposite of what it actually does.
-			# The headbob animation has two starting positions. One is at 0 and the other is at 1.
-			# randi() % 2 returns either 0 or 1, and so the animation randomly starts at one of the starting positions.
-			# This code is extremely performant but it makes no sense.
+			HEADBOB_ANIMATION.seek(float(randi() % 2))
 
 	else:
 		if HEADBOB_ANIMATION.current_animation == "sprint" or HEADBOB_ANIMATION.current_animation == "walk":
@@ -558,12 +612,11 @@ func play_headbob_animation(moving):
 			HEADBOB_ANIMATION.play("RESET", 1)
 
 func play_jump_animation():
-	if !was_on_floor and is_on_floor(): # The player just landed
+	if !was_on_floor and is_on_floor():
 		var facing_direction : Vector3 = CAMERA.get_global_transform().basis.x
 		var facing_direction_2D : Vector2 = Vector2(facing_direction.x, facing_direction.z).normalized()
 		var velocity_2D : Vector2 = Vector2(velocity.x, velocity.z).normalized()
 
-		# Compares velocity direction against the camera direction (via dot product) to determine which landing animation to play.
 		var side_landed : int = round(velocity_2D.dot(facing_direction_2D))
 
 		if side_landed > 0:
@@ -584,12 +637,10 @@ func update_debug_menu_per_frame():
 		status += " in the air"
 	$UserInterface/DebugPanel.add_property("State", status, 4)
 	$UserInterface/DebugPanel.add_property("Stamina", snappedf(current_stamina, 0.01), 5)
-	# НОВЫЙ КОД: Отображение рассудка в отладке
 	$UserInterface/DebugPanel.add_property("Sanity", snappedf(current_sanity, 0.01), 6)
 
 
 func update_debug_menu_per_tick():
-	# Big thanks to github.com/LorenzoAncora for the concept of the improved debug values
 	current_speed = Vector3.ZERO.distance_to(get_real_velocity())
 	$UserInterface/DebugPanel.add_property("Speed", snappedf(current_speed, 0.001), 1)
 	$UserInterface/DebugPanel.add_property("Target speed", speed, 2)
@@ -604,12 +655,13 @@ func update_debug_menu_per_tick():
 
 
 func _unhandled_input(event : InputEvent):
+	if is_dead:
+		return
+		
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		mouseInput = event.relative
-	# Toggle debug menu
 	elif event is InputEventKey:
 		if event.is_released():
-			# Where we're going, we don't need InputMap
 			if event.keycode == 4194338: # F7
 				$UserInterface/DebugPanel.visible = !$UserInterface/DebugPanel.visible
 
@@ -617,7 +669,7 @@ func _unhandled_input(event : InputEvent):
 
 #region Misc Functions
 
-func change_reticle(reticle): # Yup, this function is kinda strange
+func change_reticle(reticle):
 	if RETICLE:
 		RETICLE.queue_free()
 
@@ -634,13 +686,30 @@ func update_camera_fov():
 
 func handle_pausing():
 	if Input.is_action_just_pressed(controls.PAUSE):
-		# You may want another node to handle pausing, because this player may get paused too.
 		match Input.mouse_mode:
 			Input.MOUSE_MODE_CAPTURED:
 				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-				#get_tree().paused = false
 			Input.MOUSE_MODE_VISIBLE:
 				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-				#get_tree().paused = false
 
 #endregion
+
+func die():
+	if is_dead:
+		return
+	
+	is_dead = true
+	print("Player died! Showing death menu.")
+	
+	if death_menu_scene:
+		death_menu_scene.visible = true
+		user_interface.visible = false
+		for new_monster in monster_instances:
+			if is_instance_valid(new_monster):
+				new_monster.queue_free()
+		monster_instances.clear()
+	else:
+		print("ОШИБКА: Сцена меню смерти не назначена в инспекторе игрока!")
+
+	get_tree().paused = true
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
