@@ -69,14 +69,6 @@ func generate_level():
 				
 				# Добавляем созданную комнату на сцену.
 				add_child(room_instance)
-			if rng.randf() < spawn_chance:
-				var random_room_scene = room_prefabs.pick_random()
-				var room_instance = random_room_scene.instantiate()
-				var offset_x = (rng.randf() - 0.5) * 2.0
-				var offset_z = (rng.randf() - 0.5) * 2.0
-				var world_pos = Vector3(x * cell_size.x + offset_x, 0, y * cell_size.y + offset_z)
-				room_instance.position = world_pos
-				add_child(room_instance)
 			
 			processed_cells += 1
 			
