@@ -10,8 +10,6 @@ extends CharacterBody3D
 
 @export var death_menu_scene: Control
 var is_dead: bool = false
-@export var user_interface: Control
-@export var pause_scene: Control
 
 ## The settings for the character's movement and feel.
 @export_category("Character")
@@ -207,8 +205,6 @@ var stamina_boost_timer : float = 0.0
 #region Main Control Flow
 
 func _ready():
-	death_menu_scene.visible = false
-	user_interface.visible = true
 	#It is safe to comment this line if your game doesn't start with the mouse captured
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -686,11 +682,6 @@ func die():
 	
 	if death_menu_scene:
 		death_menu_scene.visible = true
-		user_interface.visible = false
-		for new_monster in monster_instances:
-			if is_instance_valid(new_monster):
-				new_monster.queue_free()
-		monster_instances.clear()
 	else:
 		print("ОШИБКА: Сцена меню смерти не назначена в инспекторе игрока!")
 
