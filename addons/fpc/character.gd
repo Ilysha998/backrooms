@@ -224,6 +224,26 @@ func _process(_delta):
 		handle_pausing()
 
 	update_debug_menu_per_frame()
+	var step_sound = $StepAudioPlayer # Предполагается, что у вас есть узел AudioStreamPlayer с именем StepAudioPlayer
+	var is_moving = false
+
+	if Input.is_action_pressed("ui_right"):
+		is_moving = true
+	elif Input.is_action_pressed("ui_left"):
+		is_moving = true
+	elif Input.is_action_pressed("ui_up"):
+		is_moving = true
+	elif Input.is_action_pressed("ui_down"):
+		is_moving = true
+	else:
+		is_moving = false
+	if is_moving:
+		# Воспроизводите звук шагов, если он еще не играет
+		if !step_sound.playing:
+			step_sound.play()
+	else:
+		step_sound.stop()
+
 
 
 func _physics_process(delta): # Most things happen here.
