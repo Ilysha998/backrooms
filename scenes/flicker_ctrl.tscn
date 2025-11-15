@@ -10,3 +10,5 @@ lamp_on_scene = ExtResource("2_hm8v6")
 lamp_off_scene = ExtResource("3_vdao6")
 
 [node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
