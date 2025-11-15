@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fhw2auide1fo"
-path.s3tc="res://.godot/imported/dirtmasktextureexample.png-685b87cf3d07641b191e0a86be2ab60a.s3tc.ctex"
+uid="uid://bf0oaa2xt3wc8"
+path.s3tc="res://.godot/imported/cctv-lines.png-2e245ae7797d88c5d6b5ef60d9c0fe38.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/textures/dirtmasktextureexample.png"
-dest_files=["res://.godot/imported/dirtmasktextureexample.png-685b87cf3d07641b191e0a86be2ab60a.s3tc.ctex"]
+source_file="res://assets/textures/cctv-lines.png"
+dest_files=["res://.godot/imported/cctv-lines.png-2e245ae7797d88c5d6b5ef60d9c0fe38.s3tc.ctex"]
 
 [params]
 
