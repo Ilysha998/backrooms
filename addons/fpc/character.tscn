@@ -1,22 +1,15 @@
-[gd_scene load_steps=36 format=3 uid="uid://cc1m2a1obsyn4"]
+[gd_scene load_steps=29 format=3 uid="uid://cc1m2a1obsyn4"]
 
 [ext_resource type="Script" uid="uid://hutuis63hgev" path="res://addons/fpc/character.gd" id="1_0t4e8"]
-[ext_resource type="Script" uid="uid://tntcgmf8pol5" path="res://addons/fpc/spot_light_3d.gd" id="2_bx7cj"]
+[ext_resource type="Script" path="res://addons/fpc/spot_light_3d.gd" id="2_bx7cj"]
 [ext_resource type="PackedScene" uid="uid://b6f8lwbmrqme" path="res://scenes/monster_2.tscn" id="2_q34qd"]
 [ext_resource type="Texture2D" uid="uid://mv268ogg3slv" path="res://assets/textures/images (1).jpg" id="2_qaoyu"]
 [ext_resource type="Texture2D" uid="uid://b0d5phlxjcyfr" path="res://assets/textures/images (3).jpg" id="3_qaoyu"]
 [ext_resource type="Script" uid="uid://dgfl3skp075ft" path="res://addons/fpc/EditorModule.gd" id="3_v3ckk"]
 [ext_resource type="Script" uid="uid://u5u7xxlvmcxx" path="res://addons/fpc/debug.gd" id="3_x1wcc"]
 [ext_resource type="Texture2D" uid="uid://bnc47o0yrnls1" path="res://assets/textures/images (4).jpg" id="4_gv6je"]
-[ext_resource type="PackedScene" uid="uid://d4mlpmmrtnu4i" path="res://scenes/monster_spawner.tscn" id="8_q62an"]
 [ext_resource type="Script" uid="uid://ds4heqpk6rwth" path="res://addons/fpc/die_scene.gd" id="9_ex63h"]
 [ext_resource type="Theme" uid="uid://d3dkgabdm8wjp" path="res://assets/themes/mmscene.tres" id="10_ex63h"]
-[ext_resource type="AudioStream" uid="uid://72vsb6ciitst" path="res://assets/sounds/step_light_01.wav" id="9_q34qd"]
-[ext_resource type="AudioStream" uid="uid://dxldhwoemnm0i" path="res://assets/sounds/step_light_02.wav" id="10_6yc32"]
-[ext_resource type="AudioStream" uid="uid://bgejmgfhd5khj" path="res://assets/sounds/step_light_03.wav" id="11_xtbqr"]
-[ext_resource type="AudioStream" uid="uid://bbw1k3d1lhyuv" path="res://assets/sounds/step_light_04.wav" id="12_bxhyc"]
-[ext_resource type="AudioStream" uid="uid://clwmbqw63r01d" path="res://assets/sounds/step_light_05.wav" id="13_3p1au"]
-[ext_resource type="AudioStream" uid="uid://dxfyj6snms5jm" path="res://assets/sounds/step_light_06.wav" id="14_62kv8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kp17n"]
 albedo_color = Color(0.909804, 0.596078, 0, 1)
@@ -400,19 +393,6 @@ script = ExtResource("1_0t4e8")
 death_menu_scene = NodePath("DieScene")
 user_interface = NodePath("UserInterface")
 pause_scene = NodePath("")
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_mpdj6"]
-random_pitch = 2.08
-streams_count = 6
-stream_0/stream = ExtResource("9_q34qd")
-stream_1/stream = ExtResource("10_6yc32")
-stream_2/stream = ExtResource("11_xtbqr")
-stream_3/stream = ExtResource("12_bxhyc")
-stream_4/stream = ExtResource("13_3p1au")
-stream_5/stream = ExtResource("14_62kv8")
-
-[node name="Character" type="CharacterBody3D" node_paths=PackedStringArray("flashlight", "HEAD", "CAMERA", "HEADBOB_ANIMATION", "JUMP_ANIMATION", "CROUCH_ANIMATION", "COLLISION_MESH", "STAMINA_BAR", "SANITY_BAR")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
-script = ExtResource("1_0t4e8")
 flashlight = NodePath("Head/Camera/SpotLight3D")
 default_reticle = "uid://3mij3cjhkwsm"
 monster_scene = ExtResource("2_q34qd")
@@ -482,7 +462,6 @@ grow_vertical = 2
 mouse_filter = 1
 
 [node name="DebugPanel" type="PanelContainer" parent="UserInterface"]
-visible = false
 layout_mode = 0
 offset_left = 10.0
 offset_top = 10.0
@@ -556,13 +535,6 @@ target_position = Vector3(0, 0.5, 0)
 
 [node name="EditorModule" type="Node" parent="."]
 script = ExtResource("3_v3ckk")
-
-[node name="MonsterSpawner" parent="." instance=ExtResource("8_q62an")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.13842762, 0, -0.019061094)
-
-[node name="StepAudioPlayer" type="AudioStreamPlayer" parent="."]
-stream = SubResource("AudioStreamRandomizer_mpdj6")
-volume_db = -35.772
 
 [node name="DieScene" type="Control" parent="."]
 process_mode = 3
