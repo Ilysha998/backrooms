@@ -11,7 +11,6 @@ extends CharacterBody3D
 @export var death_menu_scene: Control
 var is_dead: bool = false
 @export var user_interface: Control
-@export var pause_scene: Control
 
 ## The settings for the character's movement and feel.
 @export_category("Character")
@@ -267,9 +266,7 @@ func _process(_delta):
 			step_sound.play()
 	else:
 		step_sound.stop()
-
-
-
+		
 func _physics_process(delta): # Most things happen here.
 	if is_dead:
 		return
@@ -524,12 +521,12 @@ func handle_sanity(delta):
 		SANITY_BAR.value = current_sanity
 	
 	# --- ЛОГИКА СПАВНА МОНСТРОВ (без приказов) ---
-	if current_sanity < 80:
+	if current_sanity < 500:
 		monster_spawn_timer -= delta
 		if monster_spawn_timer <= 0:
 			monster_spawn_timer = monster_spawn_interval
 			spawn_monster()
-	elif current_sanity >= 80 and not monster_instances.is_empty():
+	elif current_sanity >= 500 and not monster_instances.is_empty():
 		despawn_all_monsters()
 
 func spawn_monster():
