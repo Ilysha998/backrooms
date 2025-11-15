@@ -8,5 +8,8 @@
 script = ExtResource("1_yacrm")
 water_bottle_scene = ExtResource("2_e73gt")
 stamina_bar_scene = ExtResource("3_e73gt")
+spawn_radius = 500.0
+spawn_interval = 1.0
+max_spawn_attempts = 1000
 
 [node name="Timer" type="Timer" parent="."]

@@ -516,17 +516,15 @@ func handle_sanity(delta):
 	if current_sanity == 0:
 		die()
 	
-	# Обновляем UI
 	if SANITY_BAR:
 		SANITY_BAR.value = current_sanity
 	
-	# --- ЛОГИКА СПАВНА МОНСТРОВ (без приказов) ---
-	if current_sanity < 500:
+	if current_sanity < 80:
 		monster_spawn_timer -= delta
 		if monster_spawn_timer <= 0:
 			monster_spawn_timer = monster_spawn_interval
 			spawn_monster()
-	elif current_sanity >= 500 and not monster_instances.is_empty():
+	elif current_sanity >= 80 and not monster_instances.is_empty():
 		despawn_all_monsters()
 
 func spawn_monster():
