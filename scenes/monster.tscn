@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://c0y4mqba0cbfm" path="res://scenes/monster.gd" id="2_1cbnp"]
 
 [node name="Monster" instance=ExtResource("1_uwnm8")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
 script = ExtResource("2_1cbnp")
 
 [node name="Sketchfab_model" parent="." index="0"]

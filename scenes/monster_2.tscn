@@ -7,6 +7,7 @@
 height = 3.0981445
 
 [node name="MonsterHitbox" type="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.87115383, 0)
 script = ExtResource("1_g3y7j")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

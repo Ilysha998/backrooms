@@ -60,6 +60,7 @@ environment = SubResource("Environment_0wfyh")
 
 [node name="Character" parent="." instance=ExtResource("1_o5qli")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.019061089, 0, -0.13842762)
+sanity_drain_rate = 10.0
 
 [node name="Map" parent="." instance=ExtResource("5_tbgi4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.004665613, -0.051361084, 0.016989946)
