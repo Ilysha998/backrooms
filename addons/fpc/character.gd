@@ -145,7 +145,7 @@ var is_monster_attack_mode: bool = false
 
 @export_group("Feature Settings")
 ## Enable or disable jumping. Useful for restrictive storytelling environments.
-@export var jumping_enabled : bool = true
+@export var jumping_enabled : bool = false
 ## Whether the player can move in the air or not.
 @export var in_air_momentum : bool = true
 ## Smooths the feel of walking.
@@ -248,25 +248,23 @@ func _process(_delta):
 		handle_pausing()
 
 	update_debug_menu_per_frame()
-	var step_sound = $StepAudioPlayer # Предполагается, что у вас есть узел AudioStreamPlayer с именем StepAudioPlayer
-	var is_moving = false
+	#region Звуки шагов
+	var step_sound = $StepAudioPlayer
+	var run_sound = $RunAudioPlayer
 
-	if Input.is_action_pressed("ui_right"):
-		is_moving = true
-	elif Input.is_action_pressed("ui_left"):
-		is_moving = true
-	elif Input.is_action_pressed("ui_up"):
-		is_moving = true
-	elif Input.is_action_pressed("ui_down"):
-		is_moving = true
-	else:
-		is_moving = false
-	if is_moving:
-		# Воспроизводите звук шагов, если он еще не играет
+	if state == "sprinting":
+		run_sound.play()
+	elif state == "normal" and (Input.is_action_pressed("ui_up") or Input.is_action_pressed("ui_down")):
 		if !step_sound.playing:
 			step_sound.play()
-	else:
-		step_sound.stop()
+#	else:
+#		is_moving = false
+#	if is_moving:
+#		if !step_sound.playing:
+#			step_sound.play()
+#	else:
+#		step_sound.stop()
+	#endregion
 		
 func _physics_process(delta): # Most things happen here.
 	if is_dead:

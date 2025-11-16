@@ -593,5 +593,8 @@ text = "Выйти в меню"
 stream = SubResource("AudioStreamRandomizer_bxhyc")
 volume_db = -18.335
 
+[node name="RunAudioPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("14_62kv8")
+
 [connection signal="pressed" from="DEATH/Restart" to="DEATH" method="_on_restart_pressed"]
 [connection signal="pressed" from="DEATH/Menu" to="DEATH" method="_on_menu_pressed"]
