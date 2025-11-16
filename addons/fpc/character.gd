@@ -518,7 +518,6 @@ func handle_sanity(delta):
 	if SANITY_BAR:
 		SANITY_BAR.value = current_sanity
 	
-	# --- ЛОГИКА СПАВНА МОНСТРОВ (без приказов) ---
 	if current_sanity < 50:
 		monster_spawn_timer -= delta
 		if monster_spawn_timer <= 0:
@@ -539,10 +538,7 @@ func spawn_monster():
 	
 	get_tree().root.add_child(new_monster)
 	monster_instances.append(new_monster)
-	
-	# Строка, вызывавшая ошибку, УДАЛЕНА.
-	# Новому монстру не нужна команда, он сам разберется.
-	
+		
 func despawn_all_monsters():
 	print("Рассудок восстановлен. Удаляю всех монстров.")
 	for monster in monster_instances:

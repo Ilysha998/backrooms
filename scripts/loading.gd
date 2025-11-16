@@ -6,14 +6,10 @@ extends Node
 @onready var loading_screen = $LoadingScreen
 
 func _ready():
-	# Запускаем асинхронный процесс загрузки
 	start_loading_process()
 
-# Ключевое слово 'async' позволяет использовать 'await' внутри функции
 func start_loading_process():
-	# --- ШАГ 1: ВКЛЮЧАЕМ ПАУЗУ ---
 	# Замораживаем весь игровой мир. 
-	# Экран загрузки продолжит работать, так как его Process Mode установлен в 'Always'.
 	get_tree().paused = true
 	
 	# 0. Показываем экран загрузки

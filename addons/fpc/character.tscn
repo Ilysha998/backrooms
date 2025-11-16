@@ -1,7 +1,7 @@
 [gd_scene load_steps=36 format=3 uid="uid://cc1m2a1obsyn4"]
 
 [ext_resource type="Script" uid="uid://hutuis63hgev" path="res://addons/fpc/character.gd" id="1_0t4e8"]
-[ext_resource type="Script" uid="uid://tntcgmf8pol5" path="res://addons/fpc/spot_light_3d.gd" id="2_bx7cj"]
+[ext_resource type="Script" path="res://addons/fpc/spot_light_3d.gd" id="2_bx7cj"]
 [ext_resource type="PackedScene" uid="uid://b6f8lwbmrqme" path="res://scenes/monster_2.tscn" id="2_q34qd"]
 [ext_resource type="Texture2D" uid="uid://mv268ogg3slv" path="res://assets/textures/images (1).jpg" id="2_qaoyu"]
 [ext_resource type="Texture2D" uid="uid://b0d5phlxjcyfr" path="res://assets/textures/images (3).jpg" id="3_qaoyu"]
